@@ -7523,6 +7523,1287 @@ EMOTIONAL INTELLIGENCE LAYER:
     }
   </script>
 
+  <!-- ═══════════════════════════════════════════════════
+     MEGA FEATURE BLOCK — 25+ NEW FEATURES
+════════════════════════════════════════════════════ -->
+  <style>
+    /* ── EMOTION WHEEL ── */
+    .ewheel-wrap {
+      position: relative;
+      width: 280px;
+      height: 280px;
+      margin: 0 auto
+    }
+
+    .ewheel-slice {
+      position: absolute;
+      width: 50%;
+      height: 50%;
+      transform-origin: 100% 100%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.9);
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+      transition: filter .2s;
+      border: 1px solid rgba(255, 255, 255, .15)
+    }
+
+    .ewheel-slice:hover {
+      filter: brightness(1.2) saturate(1.3)
+    }
+
+    .ewheel-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      z-index: 10;
+      cursor: pointer
+    }
+
+    /* ── HABIT TRACKER ── */
+    .habit-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: var(--surface2);
+      border-radius: var(--radius-xs);
+      border: .5px solid var(--border)
+    }
+
+    .habit-dots {
+      display: flex;
+      gap: 4px
+    }
+
+    .habit-dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--border);
+      cursor: pointer;
+      transition: all .2s;
+      border: .5px solid var(--border)
+    }
+
+    .habit-dot.done {
+      background: var(--sage);
+      border-color: var(--sage-dark)
+    }
+
+    /* ── GRATITUDE TREE ── */
+    .gtree-leaf {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      margin: 3px;
+      background: var(--sage-light);
+      color: var(--sage-dark);
+      border: .5px solid rgba(92, 140, 110, .3);
+      animation: leafGrow .4s cubic-bezier(.34, 1.56, .64, 1)
+    }
+
+    @keyframes leafGrow {
+      from {
+        transform: scale(0) rotate(-10deg);
+        opacity: 0
+      }
+
+      to {
+        transform: scale(1) rotate(0);
+        opacity: 1
+      }
+    }
+
+    /* ── WORRY JAR ── */
+    .wjar-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      background: var(--surface2);
+      border-radius: var(--radius-xs);
+      border: .5px solid var(--border);
+      margin-bottom: 6px;
+      animation: slideIn .3s ease
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(-20px);
+        opacity: 0
+      }
+
+      to {
+        transform: translateX(0);
+        opacity: 1
+      }
+    }
+
+    /* ── ENERGY DIAL ── */
+    .energy-dial {
+      width: 160px;
+      height: 80px;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden
+    }
+
+    .energy-arc {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      border: 14px solid var(--border);
+      border-bottom-color: transparent;
+      border-right-color: transparent;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: rotate(135deg);
+      transition: all .6s cubic-bezier(.4, 0, .2, 1)
+    }
+
+    .energy-needle {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 3px;
+      height: 60px;
+      background: var(--sage);
+      transform-origin: bottom center;
+      border-radius: 2px;
+      transform: translateX(-50%) rotate(-45deg);
+      transition: transform .6s cubic-bezier(.34, 1.56, .64, 1)
+    }
+
+    /* ── CONSTELLATION ── */
+    .constellation-canvas {
+      display: block;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(160deg, #030614, #08111f)
+    }
+
+    /* ── CHAT BUBBLE THEMES ── */
+    .theme-sakura .bubble.user-bubble {
+      background: linear-gradient(135deg, #f9c6cf, #f5a0b5) !important;
+      color: #4a0820 !important
+    }
+
+    .theme-sakura .bubble:not(.user-bubble) {
+      background: linear-gradient(135deg, #fef3f5, #fde8ec) !important
+    }
+
+    .theme-forest .bubble.user-bubble {
+      background: linear-gradient(135deg, #2d6a4f, #40916c) !important;
+      color: white !important
+    }
+
+    .theme-ocean .bubble.user-bubble {
+      background: linear-gradient(135deg, #1a6b8a, #2196a0) !important;
+      color: white !important
+    }
+
+    .theme-sunset .bubble.user-bubble {
+      background: linear-gradient(135deg, #c87941, #e0964f) !important;
+      color: white !important
+    }
+
+    /* ── MANTRA TICKER ── */
+    #mantraTicker {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 28px;
+      background: linear-gradient(90deg, var(--sage), var(--lavender), var(--rose), var(--sage));
+      background-size: 300% 100%;
+      animation: gradShift 8s ease infinite;
+      display: none;
+      align-items: center;
+      overflow: hidden;
+      z-index: 400
+    }
+
+    @keyframes gradShift {
+      0% {
+        background-position: 0%
+      }
+
+      100% {
+        background-position: 300%
+      }
+    }
+
+    #mantraText {
+      white-space: nowrap;
+      font-size: 12px;
+      color: white;
+      font-weight: 500;
+      letter-spacing: .04em;
+      animation: tickerScroll 20s linear infinite
+    }
+
+    @keyframes tickerScroll {
+      0% {
+        transform: translateX(100vw)
+      }
+
+      100% {
+        transform: translateX(-100%)
+      }
+    }
+
+    /* ── TAROT CARD ── */
+    .tarot-card-display {
+      perspective: 800px;
+      width: 160px;
+      height: 260px;
+      margin: 0 auto;
+      cursor: pointer
+    }
+
+    .tarot-inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform .8s cubic-bezier(.4, 0, .2, 1)
+    }
+
+    .tarot-card-display.flipped .tarot-inner {
+      transform: rotateY(180deg)
+    }
+
+    .tarot-face,
+    .tarot-back {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      text-align: center
+    }
+
+    .tarot-back {
+      background: linear-gradient(135deg, #1a0a2e, #2d1060);
+      border: 2px solid rgba(139, 125, 190, .5)
+    }
+
+    .tarot-face {
+      background: linear-gradient(160deg, #0f0a1a, #1e1040);
+      border: 2px solid rgba(200, 184, 240, .4);
+      transform: rotateY(180deg)
+    }
+
+    /* ── SOUNDSCAPE PLAYER ── */
+    .sound-layer {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      background: var(--surface2);
+      border-radius: var(--radius-xs);
+      border: .5px solid var(--border)
+    }
+
+    .sound-vol {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      flex: 1;
+      accent-color: var(--sage)
+    }
+
+    /* ── CBT THOUGHT RECORD ── */
+    .cbt-step {
+      padding: 12px;
+      border-left: 2px solid var(--sage);
+      margin-bottom: 8px;
+      background: var(--surface2);
+      border-radius: 0 var(--radius-xs) var(--radius-xs) 0
+    }
+
+    /* ── BIRTHDAY/EVENT COUNTER ── */
+    .event-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: var(--surface2);
+      border-radius: var(--radius-sm);
+      border: .5px solid var(--border);
+      margin-bottom: 8px
+    }
+
+    .event-days {
+      font-family: 'Instrument Serif', serif;
+      font-size: 32px;
+      color: var(--sage);
+      line-height: 1;
+      min-width: 50px;
+      text-align: center
+    }
+  </style>
+
+  <script>
+    // ═══════════════════════════════════════════
+    //  FEATURE 1 — EMOTION WHEEL (Plutchik-inspired)
+    // ═══════════════════════════════════════════
+    const EMOTION_WHEEL_DATA = [
+      { name: 'Joy', color: '#f6c90e', emoji: '😄', chat: 'joyful' },
+      { name: 'Trust', color: '#70b85e', emoji: '🤝', chat: 'trusting' },
+      { name: 'Fear', color: '#6b8f71', emoji: '😨', chat: 'afraid' },
+      { name: 'Surprise', color: '#b8d4e8', emoji: '😲', chat: 'surprised' },
+      { name: 'Sadness', color: '#5b8ac4', emoji: '😢', chat: 'sad' },
+      { name: 'Disgust', color: '#7d5c8c', emoji: '🤢', chat: 'disgusted' },
+      { name: 'Anger', color: '#e05c4b', emoji: '😤', chat: 'angry' },
+      { name: 'Anticipation', color: '#f4a445', emoji: '🌅', chat: 'anticipating' },
+      // Inner ring — blends
+      { name: 'Love', color: '#f0c060', emoji: '💛', chat: 'loving' },
+      { name: 'Optimism', color: '#a8d060', emoji: '🌱', chat: 'optimistic' },
+      { name: 'Awe', color: '#70c4a0', emoji: '🌌', chat: 'in awe' },
+      { name: 'Submission', color: '#90b8d0', emoji: '🙏', chat: 'humble' },
+      { name: 'Remorse', color: '#7080b0', emoji: '😔', chat: 'full of remorse' },
+      { name: 'Contempt', color: '#9060a0', emoji: '😒', chat: 'contemptuous' },
+      { name: 'Aggressiveness', color: '#d07050', emoji: '😠', chat: 'aggressive' },
+      { name: 'Disapproval', color: '#e09040', emoji: '😞', chat: 'disapproving' },
+    ];
+
+    function buildEmotionWheel() {
+      const container = document.getElementById('emotionWheelContainer');
+      if (!container) return;
+      container.innerHTML = '';
+      const wrap = document.createElement('div'); wrap.className = 'ewheel-wrap';
+      const total = 8;
+      const degPer = 360 / total;
+      // Outer ring
+      EMOTION_WHEEL_DATA.slice(0, 8).forEach((em, i) => {
+        const slice = document.createElement('div');
+        slice.className = 'ewheel-slice';
+        const angle = i * degPer;
+        slice.style.cssText = `background:${em.color};transform:rotate(${angle}deg) skewY(${90 - degPer}deg);border-radius:${i === 0 ? '12px 0 0 0' : '0'};`;
+        const label = document.createElement('span');
+        label.style.cssText = `transform:skewY(-${90 - degPer}deg) rotate(-${angle + (degPer / 2)}deg) translateY(-30px);display:block;font-size:9px;text-align:center;pointer-events:none`;
+        label.textContent = em.emoji + ' ' + em.name;
+        slice.appendChild(label);
+        slice.onclick = () => selectWheelEmotion(em);
+        wrap.appendChild(slice);
+      });
+      const center = document.createElement('div'); center.className = 'ewheel-center'; center.id = 'ewheelCenter'; center.textContent = '❓';
+      center.onclick = () => sendWheelEmotionToChat();
+      wrap.appendChild(center);
+      container.appendChild(wrap);
+    }
+
+    let _selectedWheelEmotion = null;
+    function selectWheelEmotion(em) {
+      _selectedWheelEmotion = em;
+      const center = document.getElementById('ewheelCenter');
+      if (center) center.textContent = em.emoji;
+      document.getElementById('emotionWheelLabel').textContent = `You're feeling: ${em.name}`;
+      document.getElementById('ewheelSendBtn').style.display = 'block';
+      setCompanionEmotion(em.name.toLowerCase() === 'joy' ? 'joy' : em.name.toLowerCase() === 'sadness' ? 'sad' : em.name.toLowerCase() === 'anger' ? 'worried' : 'calm');
+    }
+    function sendWheelEmotionToChat() {
+      if (!_selectedWheelEmotion) { showToast('Pick an emotion first', 'error'); return; }
+      closeModal('emotionWheelModal');
+      const em = _selectedWheelEmotion;
+      document.getElementById('msgInput').value = `I'm feeling ${em.chat} right now`;
+      sendMessage();
+      affectionBurst(em.emoji + em.emoji);
+    }
+
+    // ═══════════════════════════════════════════
+    //  FEATURE 2 — HABIT TRACKER
+    // ═══════════════════════════════════════════
+    const HABITS_KEY = 'companion_habits_v1';
+    const DEFAULT_HABITS = [
+      { id: 1, name: 'Drink water 💧', streak: 0, days: [] },
+      { id: 2, name: 'Go outside 🌿', streak: 0, days: [] },
+      { id: 3, name: 'Sleep 7h+ 🌙', streak: 0, days: [] },
+      { id: 4, name: 'Journal ✍️', streak: 0, days: [] },
+      { id: 5, name: 'Move body 🏃', streak: 0, days: [] },
+    ];
+    function getHabits() { try { return JSON.parse(localStorage.getItem(HABITS_KEY)) || DEFAULT_HABITS; } catch (e) { return DEFAULT_HABITS; } }
+    function saveHabits(h) { localStorage.setItem(HABITS_KEY, JSON.stringify(h)); }
+    function getTodayStr() { return new Date().toISOString().slice(0, 10); }
+
+    function toggleHabitDay(id) {
+      const habits = getHabits(); const today = getTodayStr();
+      const h = habits.find(x => x.id === id); if (!h) return;
+      const idx = h.days.indexOf(today);
+      if (idx === -1) { h.days.push(today); affectionBurst('✅🌱'); showToast(h.name + ' — done today! 🌱', 'success'); }
+      else { h.days.splice(idx, 1); }
+      // Recalc streak
+      let streak = 0, d = new Date();
+      while (true) {
+        const s = d.toISOString().slice(0, 10);
+        if (h.days.includes(s)) { streak++; d.setDate(d.getDate() - 1); } else break;
+      }
+      h.streak = streak;
+      saveHabits(habits); renderHabits();
+    }
+
+    function addCustomHabit() {
+      const inp = document.getElementById('newHabitInput'); const val = inp?.value?.trim();
+      if (!val) return;
+      const habits = getHabits();
+      habits.push({ id: Date.now(), name: val, streak: 0, days: [] });
+      saveHabits(habits); inp.value = ''; renderHabits();
+      showToast('Habit added 🌱', 'success');
+    }
+
+    function renderHabits() {
+      const el = document.getElementById('habitList'); if (!el) return;
+      const habits = getHabits(); const today = getTodayStr();
+      // Last 7 days
+      const days = Array.from({ length: 7 }, (_, i) => { const d = new Date(); d.setDate(d.getDate() - 6 + i); return d.toISOString().slice(0, 10); });
+      el.innerHTML = habits.map(h => `
+    <div class="habit-row">
+      <span style="flex:1;font-size:13px">${h.name}</span>
+      <span style="font-size:11px;color:var(--sage);min-width:40px">🔥${h.streak}</span>
+      <div class="habit-dots">
+        ${days.map(d => `<div class="habit-dot ${h.days.includes(d) ? 'done' : ''}" onclick="toggleHabitDay(${h.id})" title="${d}"></div>`).join('')}
+      </div>
+      <button onclick="deleteHabit(${h.id})" style="background:none;border:none;cursor:pointer;color:var(--text-hint);font-size:13px;padding:0 4px">✕</button>
+    </div>`).join('');
+      // Summary
+      const done = habits.filter(h => h.days.includes(today)).length;
+      document.getElementById('habitSummary').textContent = `${done}/${habits.length} habits done today`;
+    }
+
+    function deleteHabit(id) { saveHabits(getHabits().filter(h => h.id !== id)); renderHabits(); }
+
+    // ═══════════════════════════════════════════
+    //  FEATURE 3 — GRATITUDE TREE
+    // ═══════════════════════════════════════════
+    const GTREE_KEY = 'companion_gratitude_tree';
+    function getTreeLeaves() { try { return JSON.parse(localStorage.getItem(GTREE_KEY)) || []; } catch (e) { return []; } }
+    function addLeaf(text) {
+      if (!text.trim()) return;
+      const leaves = getTreeLeaves();
+      leaves.unshift({ text: text.trim(), date: new Date().toLocaleDateString(), id: Date.now() });
+      if (leaves.length > 50) leaves.pop();
+      localStorage.setItem(GTREE_KEY, JSON.stringify(leaves));
+      renderGratitudeTree(); affectionBurst('🍃💛🌿');
+      showToast('Leaf added to your gratitude tree 🍃', 'success');
+    }
+    function renderGratitudeTree() {
+      const el = document.getElementById('gratitudeTreeLeaves'); if (!el) return;
+      const leaves = getTreeLeaves();
+      if (!leaves.length) { el.innerHTML = '<p style="color:var(--text-hint);text-align:center;font-size:13px;padding:16px">Your tree is waiting for its first leaf 🌱</p>'; return; }
+      el.innerHTML = leaves.slice(0, 30).map(l =>
+        `<span class="gtree-leaf">🍃 ${l.text} <button onclick="removeLeaf(${l.id})" style="background:none;border:none;cursor:pointer;color:var(--sage-dark);font-size:11px;margin-left:4px">✕</button></span>`
+      ).join('');
+    }
+    function removeLeaf(id) { localStorage.setItem(GTREE_KEY, JSON.stringify(getTreeLeaves().filter(l => l.id !== id))); renderGratitudeTree(); }
+    function submitGratitudeLeaf() {
+      const inp = document.getElementById('gratitudeLeafInput'); addLeaf(inp?.value || ''); if (inp) inp.value = '';
+    }
+    function shareTreeInChat() {
+      const leaves = getTreeLeaves().slice(0, 5);
+      if (!leaves.length) { showToast('Add some leaves first 🍃', 'error'); return; }
+      closeModal('gratitudeTreeModal');
+      addMsg('ai', `🌳 Your gratitude tree is growing beautifully:\n\n${leaves.map(l => '🍃 ' + l.text).join('\n')}\n\nThese are real, they happened, and they matter. 💛`);
+      S.history.push({ role: 'assistant', content: 'Shared gratitude tree' });
+      affectionBurst('🌳💛🍃');
+    }
+
+    // ═══════════════════════════════════════════
+    //  FEATURE 4 — WORRY JAR
+    // ═══════════════════════════════════════════
+    const WJAR_KEY = 'companion_worryjar';
+    function getWorries() { try { return JSON.parse(localStorage.getItem(WJAR_KEY)) || []; } catch (e) { return []; } }
+    function addWorry(text) {
+      if (!text.trim()) return;
+      const w = getWorries();
+      w.unshift({ text: text.trim(), date: new Date().toLocaleString(), id: Date.now(), resolved: false });
+      localStorage.setItem(WJAR_KEY, JSON.stringify(w)); renderWorries();
+      addMsg('ai', `🫙 Your worry is now in the jar. It's held. You don't have to carry it alone right now. 💙\n\nWhenever you're ready, we can look at it together.`);
+      if (window._autoRead) speakText("Your worry is now in the jar. It's held. You don't have to carry it alone.", { rate: 0.78 });
+      affectionBurst('🫙💙🌿');
+    }
+    function submitWorry() {
+      const inp = document.getElementById('worryJarInput'); addWorry(inp?.value || ''); if (inp) inp.value = ''; closeModal('worryJarModal');
+    }
+    function resolveWorry(id) {
+      const w = getWorries().map(x => x.id === id ? { ...x, resolved: true } : x);
+      localStorage.setItem(WJAR_KEY, JSON.stringify(w)); renderWorries();
+      addMsg('ai', `🌟 You marked a worry as resolved. That takes real courage. How does it feel to let it go? 💙`);
+      affectionBurst('🌟✨💙');
+    }
+    function deleteWorry(id) { localStorage.setItem(WJAR_KEY, JSON.stringify(getWorries().filter(w => w.id !== id))); renderWorries(); }
+    function renderWorries() {
+      const el = document.getElementById('worryList'); if (!el) return;
+      const worries = getWorries();
+      if (!worries.length) { el.innerHTML = '<p style="color:var(--text-hint);text-align:center;font-size:13px;padding:16px">Your jar is empty — worries you add here are held safely 🫙</p>'; return; }
+      el.innerHTML = worries.map(w =>
+        `<div class="wjar-item" style="${w.resolved ? 'opacity:.5;text-decoration:line-through' : ''}">
+      <span style="flex:1;font-size:13px;line-height:1.5">${w.text}</span>
+      <span style="font-size:10px;color:var(--text-hint);white-space:nowrap">${w.date.split(',')[0]}</span>
+      ${!w.resolved ? `<button onclick="resolveWorry(${w.id})" style="background:none;border:none;cursor:pointer;font-size:16px" title="Mark resolved">✅</button>` : ''}
+      <button onclick="deleteWorry(${w.id})" style="background:none;border:none;cursor:pointer;color:var(--text-hint);font-size:13px">✕</button>
+    </div>`).join('');
+    }
+
+    // ═══════════════════════════════════════════
+    //  FEATURE 5 — MANTRA TICKER TAPE
+    // ═══════════════════════════════════════════
+    const MANTRAS = [
+      'You are enough ✨', 'This moment will pass 🌊', 'You are loved 💙', 'Breathe. Just breathe. 🌿',
+      'You survived every hard day so far 💪', 'Peace begins with you 🕊', 'Your feelings are valid 🌸',
+      'You deserve rest 🌙', 'Small steps still move forward 🐾', 'Be gentle with yourself 🤗',
+      'You are not alone in this 🫂', 'Healing is not linear 🌀', 'You are braver than you know ⭐',
+      'Today is enough 🍃', 'You matter, always 💛',
+    ];
+    let _mantrasOn = false;
+    function toggleMantraTicker() {
+      _mantrasOn = !_mantrasOn;
+      const ticker = document.getElementById('mantraTicker');
+      if (!ticker) return;
+      ticker.style.display = _mantrasOn ? 'flex' : 'none';
+      if (_mantrasOn) { cycleMantra(); showToast('Mantra ticker ON 🌸', 'success'); }
+      else { showToast('Mantra ticker OFF', 'normal'); }
+    }
+    let _mantaIdx = 0;
+    function cycleMantra() {
+      if (!_mantrasOn) return;
+      const el = document.getElementById('mantraText'); if (!el) return;
+      el.textContent = '✨  ' + MANTRAS[_mantaIdx++ % MANTRAS.length] + '  ·  ' + MANTRAS[(_mantaIdx + 3) % MANTRAS.length] + '  ·  ' + MANTRAS[(_mantaIdx + 7) % MANTRAS.length] + '  ✨';
+      setTimeout(cycleMantra, 25000);
+    }
+
+    // ═══════════════════════════════════════════
+    //  FEATURE 6 — TAROT / ORACLE CARD DRAW
+    // ═══════════════════════════════════════════
+    const TAROT_DECK = [
+      { name: 'The Star', emoji: '⭐', meaning: 'Hope is returning. Light after darkness. Trust the universe.', reversed: 'Despair giving way to glimpses of hope.', affirmation: 'I allow hope to guide me forward.' },
+      { name: 'The Moon', emoji: '🌙', meaning: 'Trust your intuition. The subconscious holds wisdom.', reversed: 'Confusion is temporary. Clarity is coming.', affirmation: 'I trust what I feel, even in uncertainty.' },
+      { name: 'The Sun', emoji: '☀️', meaning: 'Joy, warmth, and success are yours right now.', reversed: 'A clouded joy — look for the light underneath.', affirmation: 'I radiate warmth and welcome goodness.' },
+      { name: 'The World', emoji: '🌍', meaning: 'Completion. You have come so far. Celebrate.', reversed: 'Almost there. One last thing to release.', affirmation: 'I honour how far I have come.' },
+      { name: 'The Tower', emoji: '⚡', meaning: 'Something must fall to be rebuilt better.', reversed: 'A gentle shake, not destruction.', affirmation: 'I release what no longer serves me with grace.' },
+      { name: 'The Lovers', emoji: '💞', meaning: 'Deep connection — with self or another. Choose love.', reversed: 'A relationship within yourself needs healing first.', affirmation: 'I am worthy of deep, true love.' },
+      { name: 'Strength', emoji: '🦁', meaning: 'Quiet inner strength. Compassion over force.', reversed: 'Rest is also strength. Give yourself permission.', affirmation: 'My gentleness is my greatest power.' },
+      { name: 'The Hermit', emoji: '🕯', meaning: 'Solitude as sanctuary. Your light guides others too.', reversed: 'Loneliness that is asking to be transformed.', affirmation: 'In stillness, I find everything I need.' },
+      { name: 'Judgement', emoji: '🔔', meaning: 'Awakening. A second chance. Forgive yourself.', reversed: 'Self-judgement is the only prison left.', affirmation: 'I forgive myself and begin again.' },
+      { name: 'The High Priestess', emoji: '🔮', meaning: 'Deep intuition. Mystery. Trust what you know inside.', reversed: 'Something you know but haven\'t said yet.', affirmation: 'I honour the wisdom that lives in me.' },
+      { name: 'The Empress', emoji: '🌺', meaning: 'Abundance, nurturing, creativity flowering.', reversed: 'Over-giving — remember to care for yourself too.', affirmation: 'I am fertile ground for beauty and healing.' },
+      { name: 'The Fool', emoji: '🌈', meaning: 'A new beginning. Trust the leap. The universe will catch you.', reversed: 'Hesitation is asking: what\'s the real fear?', affirmation: 'I trust new beginnings with an open heart.' },
+      { name: 'Wheel of Fortune', emoji: '🎡', meaning: 'Things are shifting in your favour. Change is here.', reversed: 'Resistance to change keeps the wheel stuck.', affirmation: 'I flow with life\'s natural turning.' },
+      { name: 'Justice', emoji: '⚖️', meaning: 'Truth, balance, and fairness will prevail.', reversed: 'Somewhere, imbalance is asking to be seen.', affirmation: 'I trust that truth always finds its way.' },
+      { name: 'The Chariot', emoji: '🏆', meaning: 'Willpower and determination will carry you through.', reversed: 'Gather your energy before moving forward.', affirmation: 'I have the strength to move through anything.' },
+      { name: 'The Magician', emoji: '🪄', meaning: 'You have everything you need. Create your reality.', reversed: 'Power that needs to be reclaimed.', affirmation: 'I am capable of creating what I envision.' },
+      { name: 'Temperance', emoji: '🌊', meaning: 'Balance. Flow. Everything in its right measure.', reversed: 'Something is out of balance — and you know it.', affirmation: 'I find peace in the middle path.' },
+      { name: 'The Hanged Man', emoji: '🙃', meaning: 'Pause. Surrender. See from a new angle.', reversed: 'The suspension is almost over. New perspective arriving.', affirmation: 'I release control and trust the process.' },
+      { name: 'The Devil', emoji: '🔗', meaning: 'You are freer than you feel. The chains are loosening.', reversed: 'One link of the chain is already broken.', affirmation: 'I release what binds me with love and courage.' },
+      { name: 'Death', emoji: '🦋', meaning: 'Transformation. An old version of you is completing. Welcome the new.', reversed: 'Resistance to necessary change.', affirmation: 'I welcome transformation with courage.' },
+      { name: 'The Emperor', emoji: '👑', meaning: 'Structure, stability, and grounded strength.', reversed: 'Rigidity that wants to soften.', affirmation: 'I create order in my life with love.' },
+      { name: 'The Hierophant', emoji: '📿', meaning: 'Tradition, guidance, spiritual wisdom.', reversed: 'Questioning what you were taught — that is wisdom too.', affirmation: 'I seek truth in my own way.' },
+    ];
+
+    let _currentTarotCard = null;
+    function drawTarotCard() {
+      const card = TAROT_DECK[Math.floor(Math.random() * TAROT_DECK.length)];
+      const reversed = Math.random() < 0.3;
+      _currentTarotCard = { ...card, reversed };
+      const display = document.getElementById('tarotCardDisplay');
+      if (display) {
+        display.classList.remove('flipped');
+        document.getElementById('tarotCardEmoji').textContent = card.emoji;
+        document.getElementById('tarotCardName').textContent = (reversed ? '↓ ' : '') + card.name + (reversed ? ' (Reversed)' : '');
+        document.getElementById('tarotCardMeaning').textContent = reversed ? card.reversed : card.meaning;
+        document.getElementById('tarotAffirmation').textContent = card.affirmation;
+        setTimeout(() => display.classList.add('flipped'), 100);
+      }
+      document.getElementById('tarotShareBtn').style.display = 'block';
+    }
+    function shareTarotInChat() {
+      if (!_currentTarotCard) return; closeModal('tarotModal');
+      const c = _currentTarotCard;
+      addMsg('ai', `🔮 Your card: ${c.emoji} **${c.name}**${c.reversed ? ' (Reversed)' : ''}\n\n${c.reversed ? c.reversed : c.meaning}\n\n✨ Affirmation: "${c.affirmation}"\n\nWhat does this bring up for you? 💙`);
+      S.history.push({ role: 'assistant', content: `Tarot: ${c.name} — ${c.meaning}` });
+      affectionBurst(c.emoji + '✨💙');
+    }
+
+    // ═══════════════════════════════════════════
+    //  FEATURE 7 — CBT THOUGHT RECORD
+    // ═══════════════════════════════════════════
+    async function analyzeCBTThought() {
+      const situation = document.getElementById('cbtSituation')?.value?.trim();
+      const thought = document.getElementById('cbtThought')?.value?.trim();
+      const feeling = document.getElementById('cbtFeeling')?.value?.trim();
+      if (!situation || !thought || !feeling) { showToast('Fill in all three fields first 💙', 'error'); return; }
+      const el = document.getElementById('cbtResult'); el.style.display = 'block';
+      el.innerHTML = '<p style="text-align:center;padding:14px;color:var(--text-hint)">Examining your thought pattern… 💭</p>';
+      if (!S.apiKey) {
+        el.innerHTML = `<div class="cbt-step"><strong>🔍 What happened:</strong><br>${situation}</div>
+      <div class="cbt-step"><strong>💭 The thought:</strong><br>${thought}</div>
+      <div class="cbt-step"><strong>💙 The feeling:</strong><br>${feeling}</div>
+      <div class="cbt-step" style="border-color:var(--lavender)"><strong>✨ A reframe to try:</strong><br>Is there another way to see this situation? What would you say to a friend thinking this?</div>`;
+        return;
+      }
+      try {
+        const prov = PROVIDERS[S.provider];
+        const sys = `You are a compassionate CBT therapist. Given a situation, automatic thought, and feeling, provide: 1) The cognitive distortion(s) present (name 1-2 gently), 2) A Socratic question to examine the thought, 3) A gentle balanced reframe. Be warm, never clinical. Max 150 words total. Format with clear sections.`;
+        const rawBody = { model: prov.model, max_tokens: 300, messages: [{ role: 'system', content: sys }, { role: 'user', content: `Situation: ${situation}\nThought: "${thought}"\nFeeling: ${feeling}` }] };
+        const res = await fetch(prov.url, { method: 'POST', headers: prov.headers(S.apiKey), body: JSON.stringify(prov.format(rawBody)) });
+        if (!res.ok) throw new Error(await res.text());
+        const data = await res.json(); const reply = prov.parse(data);
+        el.innerHTML = `<div class="cbt-step"><strong>💭 Your thought:</strong> ${thought}</div>
+      <div class="cbt-step" style="border-color:var(--lavender)">${reply.replace(/\n/g, '<br>')}</div>
+      <button class="breath-start" onclick="shareCBTInChat('${escJS(thought)}','${escJS(reply)}')" style="width:100%;margin-top:8px">💬 Discuss in chat</button>`;
+        affectionBurst('💭💙✨');
+      } catch (e) { el.innerHTML = '<p style="color:var(--text-hint);text-align:center">Check your API key 💙</p>'; }
+    }
+    function shareCBTInChat(thought, analysis) {
+      closeModal('cbtModal');
+      addMsg('ai', `💭 About the thought "${thought}":\n\n${analysis}\n\nHow does that land with you? 💙`);
+      S.history.push({ role: 'assistant', content: analysis });
+    }
+
+    // ═══════════════════════════════════════════
+    //  FEATURE 8 — SOUNDSCAPE MIXER
+    // ═══════════════════════════════════════════
+    const SOUNDSCAPE_LAYERS = [
+      { name: 'Rain', emoji: '🌧', url: 'https://www.soundjay.com/nature/rain-01.mp3', fallbackUrl: 'https://assets.mixkit.co/sfx/preview/mixkit-light-rain-loop-2393.mp3' },
+      { name: 'Ocean', emoji: '🌊', url: 'https://www.soundjay.com/nature/ocean-wave-1.mp3', fallbackUrl: 'https://assets.mixkit.co/sfx/preview/mixkit-sea-waves-loop-1196.mp3' },
+      { name: 'Fire', emoji: '🔥', url: 'https://www.soundjay.com/nature/fire-1.mp3', fallbackUrl: 'https://assets.mixkit.co/sfx/preview/mixkit-campfire-crackles-1330.mp3' },
+      { name: 'Wind', emoji: '💨', url: 'https://www.soundjay.com/nature/wind-in-trees-3.mp3', fallbackUrl: 'https://assets.mixkit.co/sfx/preview/mixkit-forest-wind-loop-2383.mp3' },
+      { name: 'Birds', emoji: '🐦', url: 'https://www.soundjay.com/nature/birds-1.mp3', fallbackUrl: 'https://assets.mixkit.co/sfx/preview/mixkit-morning-birds-2736.mp3' },
+      { name: 'Stream', emoji: '🏞', url: 'https://www.soundjay.com/nature/stream-1.mp3', fallbackUrl: 'https://assets.mixkit.co/sfx/preview/mixkit-small-river-or-stream-loop-2382.mp3' },
+    ];
+    const _soundAudios = {};
+    function toggleSoundLayer(name, url, fallback, btn) {
+      if (_soundAudios[name]) {
+        _soundAudios[name].pause(); delete _soundAudios[name];
+        btn.classList.remove('active'); btn.style.background = ''; return;
+      }
+      const a = new Audio(); a.loop = true; a.volume = 0.4;
+      a.src = fallback; // use mixkit (more reliable CDN)
+      a.play().catch(() => { showToast('Sound blocked by browser — try clicking first', 'error'); });
+      _soundAudios[name] = a;
+      btn.classList.add('active'); btn.style.background = 'var(--sage-light)';
+    }
+    function setSoundVolume(name, vol) {
+      if (_soundAudios[name]) _soundAudios[name].volume = parseFloat(vol);
+    }
+    function stopAllSounds() {
+      Object.values(_soundAudios).forEach(a => a.pause());
+      Object.keys(_soundAudios).forEach(k => delete _soundAudios[k]);
+      document.querySelectorAll('.sound-toggle-btn').forEach(b => { b.classList.remove('active'); b.style.background = ''; });
+      showToast('All sounds stopped 🔇', 'normal');
+    }
+
+    // ═══════════════════════════════════════════
+    //  FEATURE 9 — BIRTHDAY & EVENT COUNTDOWN
+    // ═══════════════════════════════════════════
+    const EVENTS_KEY = 'companion_events_v1';
+    function getEvents() { try { return JSON.parse(localStorage.getItem(EVENTS_KEY)) || []; } catch (e) { return []; } }
+    function saveEvents(e) { localStorage.setItem(EVENTS_KEY, JSON.stringify(e)); }
+    function addEvent() {
+      const name = document.getElementById('eventName')?.value?.trim();
+      const date = document.getElementById('eventDate')?.value;
+      const emoji = document.getElementById('eventEmoji')?.value || '🎉';
+      if (!name || !date) { showToast('Add a name and date 💙', 'error'); return; }
+      const events = getEvents();
+      events.push({ id: Date.now(), name, date, emoji });
+      saveEvents(events); renderEvents();
+      document.getElementById('eventName').value = ''; document.getElementById('eventDate').value = '';
+      showToast('Event added 🎉', 'success');
+    }
+    function deleteEvent(id) { saveEvents(getEvents().filter(e => e.id !== id)); renderEvents(); }
+    function daysUntil(dateStr) {
+      const target = new Date(dateStr); const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      // Handle recurring (birthday) — find next occurrence
+      if (target < today) { target.setFullYear(today.getFullYear()); if (target < today) target.setFullYear(today.getFullYear() + 1); }
+      return Math.round((target - today) / (1000 * 60 * 60 * 24));
+    }
+    function renderEvents() {
+      const el = document.getElementById('eventList'); if (!el) return;
+      const events = getEvents().sort((a, b) => daysUntil(a.date) - daysUntil(b.date));
+      if (!events.length) { el.innerHTML = '<p style="color:var(--text-hint);text-align:center;font-size:13px;padding:16px">No events yet — add a birthday or special day 🎉</p>'; return; }
+      el.innerHTML = events.map(e => {
+        const days = daysUntil(e.date);
+        return `<div class="event-card">
+      <div class="event-days" style="color:${days <= 7 ? 'var(--rose)' : days <= 30 ? 'var(--warm)' : 'var(--sage)'}">${days}</div>
+      <div style="flex:1"><div style="font-weight:600;font-size:14px">${e.emoji} ${e.name}</div><div style="font-size:11px;color:var(--text-hint)">${days === 0 ? '🎉 TODAY!' : days === 1 ? 'Tomorrow!' : 'days away'} · ${new Date(e.date).toLocaleDateString()}</div></div>
+      <button onclick="deleteEvent(${e.id})" style="background:none;border:none;cursor:pointer;color:var(--text-hint);font-size:13px">✕</button>
+    </div>`;
+      }).join('');
+    }
+
+    // ═══════════════════════════════════════════
+    //  FEATURE 10 — CONSTELLATION MOOD MAP
+    // ═══════════════════════════════════════════
+    function drawConstellationMap() {
+      const canvas = document.getElementById('constellationCanvas'); if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      canvas.width = canvas.offsetWidth || 320; canvas.height = 200;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const log = JSON.parse(localStorage.getItem('companion_emotion_timeline') || '[]').slice(-20);
+      if (log.length < 2) {
+        ctx.fillStyle = 'rgba(200,184,240,.5)'; ctx.font = '12px Sora,sans-serif'; ctx.textAlign = 'center';
+        ctx.fillText('Chat more to grow your constellation ✨', canvas.width / 2, canvas.height / 2); return;
+      }
+      const emoToY = { calm: 0.5, joy: 0.1, love: 0.2, worried: 0.7, sad: 0.8, dark: 0.95 };
+      const pts = log.map((item, i) => ({
+        x: 20 + i * ((canvas.width - 40) / (log.length - 1)),
+        y: (emoToY[item.emotion] || 0.5) * (canvas.height - 40) + 20,
+        em: item.emotion
+      }));
+      // Draw lines
+      ctx.beginPath(); ctx.moveTo(pts[0].x, pts[0].y);
+      pts.forEach(p => ctx.lineTo(p.x, p.y));
+      ctx.strokeStyle = 'rgba(139,125,190,0.4)'; ctx.lineWidth = 1; ctx.stroke();
+      // Stars
+      pts.forEach(p => {
+        const colors = { calm: '#5c8c6e', joy: '#f6c90e', love: '#c26b7a', worried: '#c07a50', sad: '#5b8ac4', dark: '#6a5fa0' };
+        ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+        ctx.fillStyle = colors[p.em] || '#c8b8f0'; ctx.fill();
+        // Glow
+        const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, 10);
+        g.addColorStop(0, 'rgba(200,184,240,.3)'); g.addColorStop(1, 'transparent');
+        ctx.beginPath(); ctx.arc(p.x, p.y, 10, 0, Math.PI * 2); ctx.fillStyle = g; ctx.fill();
+      });
+    }
+
+    // ═══════════════════════════════════════════
+    //  FEATURE 11 — AI STORY MODE (collaborative)
+    // ═══════════════════════════════════════════
+    let _storyText = '';
+    async function continueStory(seed) {
+      const el = document.getElementById('storyDisplay');
+      const inp = document.getElementById('storyInput');
+      const userLine = inp?.value?.trim() || seed || '';
+      if (!_storyText && !userLine) { showToast('Start the story first ✍️', 'error'); return; }
+      if (!S.apiKey) { showToast('Add an API key to use Story Mode 💙', 'error'); return; }
+      if (userLine) { _storyText += (userLine.endsWith('.') || userLine.endsWith('!') || userLine.endsWith('?') ? ' ' : '. ') + userLine; if (inp) inp.value = ''; }
+      if (el) el.innerHTML = (_storyText || '') + '<span style="color:var(--text-hint);animation:pulse 1s infinite">▌</span>';
+      try {
+        const prov = PROVIDERS[S.provider];
+        const sys = 'You are a collaborative storyteller. Continue this healing, magical story in 2-3 sentences. The story should feel comforting, hopeful, and beautifully written. Match the tone set. End at a natural pause that invites continuation.';
+        const rawBody = { model: prov.model, max_tokens: 200, messages: [{ role: 'system', content: sys }, { role: 'user', content: `Story so far:\n${_storyText.slice(-600)}\n\nContinue:` }] };
+        const res = await fetch(prov.url, { method: 'POST', headers: prov.headers(S.apiKey), body: JSON.stringify(prov.format(rawBody)) });
+        if (!res.ok) throw new Error(await res.text());
+        const data = await res.json(); const cont = prov.parse(data);
+        _storyText += ' ' + cont;
+        if (el) { el.innerHTML = _storyText; el.scrollTop = el.scrollHeight; }
+      } catch (e) { if (el) el.innerHTML = _storyText; showToast('Story error — check API key', 'error'); }
+    }
+    function resetStory() { _storyText = ''; const el = document.getElementById('storyDisplay'); if (el) el.innerHTML = '<p style="color:var(--text-hint);text-align:center;font-size:13px">Your story begins here… ✨</p>'; }
+    function shareStoryInChat() {
+      if (!_storyText) return; closeModal('storyModal');
+      addMsg('ai', `📖 Our story:\n\n${_storyText}\n\n✨ Every story we write together is a piece of you. 💙`);
+      S.history.push({ role: 'assistant', content: _storyText.slice(0, 200) + '…' });
+      affectionBurst('📖✨💙');
+    }
+    const STORY_SEEDS = [
+      'Once there was a person who had been carrying something heavy for a long time…',
+      'In a quiet forest where time moved like honey, someone sat by a stream…',
+      'There was a door no one had opened in years. Behind it lived something unexpected…',
+      'The ocean wrote letters to the shore every night. Tonight, the message read…',
+      'She had been searching for the word for what she felt. Then one morning…',
+    ];
+
+    // ═══════════════════════════════════════════
+    //  FEATURE 12 — CHAT BUBBLE THEMES
+    // ═══════════════════════════════════════════
+    const CHAT_THEMES = [
+      { id: 'default', name: 'Default', emoji: '🌿', desc: 'The original warm companion look' },
+      { id: 'sakura', name: 'Sakura', emoji: '🌸', desc: 'Soft pink petals, tender warmth' },
+      { id: 'forest', name: 'Forest', emoji: '🌲', desc: 'Deep green, grounded and calm' },
+      { id: 'ocean', name: 'Ocean', emoji: '🌊', desc: 'Cool blue, flowing and peaceful' },
+      { id: 'sunset', name: 'Sunset', emoji: '🌅', desc: 'Warm amber, glowing and hopeful' },
+      { id: 'night', name: 'Night', emoji: '🌙', desc: 'Deep indigo, mysterious and safe' },
+    ];
+    let _currentTheme = 'default';
+    function applyTheme(id) {
+      CHAT_THEMES.forEach(t => document.body.classList.remove('theme-' + t.id));
+      _currentTheme = id;
+      if (id !== 'default') document.body.classList.add('theme-' + id);
+      if (id === 'night') document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('companion_theme', id);
+      showToast(CHAT_THEMES.find(t => t.id === id)?.name + ' theme applied ✨', 'success');
+      renderThemeGrid();
+    }
+    function renderThemeGrid() {
+      const el = document.getElementById('themeGrid'); if (!el) return;
+      el.innerHTML = CHAT_THEMES.map(t =>
+        `<div onclick="applyTheme('${t.id}')" style="padding:12px;border:1.5px solid ${_currentTheme === t.id ? 'var(--sage)' : 'var(--border)'};border-radius:var(--radius-sm);background:${_currentTheme === t.id ? 'var(--sage-light)' : 'var(--surface2)'};cursor:pointer;text-align:center;transition:all .2s">
+      <div style="font-size:24px">${t.emoji}</div>
+      <div style="font-size:12px;font-weight:600;margin-top:4px">${t.name}</div>
+      <div style="font-size:10px;color:var(--text-hint);margin-top:2px">${t.desc}</div>
+    </div>`).join('');
+    }
+    // Restore saved theme
+    const _savedTheme = localStorage.getItem('companion_theme');
+    if (_savedTheme) setTimeout(() => applyTheme(_savedTheme), 600);
+
+    // ═══════════════════════════════════════════
+    //  FEATURE 13 — CRISIS PLAN BUILDER
+    // ═══════════════════════════════════════════
+    const CPLAN_KEY = 'companion_crisis_plan';
+    function saveCrisisPlan() {
+      const plan = {
+        warningsigns: document.getElementById('cpWarning')?.value || '',
+        copingstrategies: document.getElementById('cpCoping')?.value || '',
+        supportpeople: document.getElementById('cpPeople')?.value || '',
+        safeplaces: document.getElementById('cpPlaces')?.value || '',
+        reasons: document.getElementById('cpReasons')?.value || '',
+        saved: new Date().toLocaleString()
+      };
+      localStorage.setItem(CPLAN_KEY, JSON.stringify(plan));
+      showToast('Safety plan saved 💙', 'success');
+      affectionBurst('💙🌿✨');
+      addMsg('ai', '💙 Your safety plan is saved. It takes real courage to create one. I\'m proud of you for doing this. Whenever things feel hard, it will be right here for you. 🌿');
+      closeModal('crisisPlanModal');
+    }
+    function loadCrisisPlan() {
+      try {
+        const p = JSON.parse(localStorage.getItem(CPLAN_KEY) || '{}');
+        if (p.warningsigns) document.getElementById('cpWarning').value = p.warningsigns;
+        if (p.copingstrategies) document.getElementById('cpCoping').value = p.copingstrategies;
+        if (p.supportpeople) document.getElementById('cpPeople').value = p.supportpeople;
+        if (p.safeplaces) document.getElementById('cpPlaces').value = p.safeplaces;
+        if (p.reasons) document.getElementById('cpReasons').value = p.reasons;
+      } catch (e) { }
+    }
+
+    // ═══════════════════════════════════════════
+    //  FEATURE 14 — ENERGY DIAL
+    // ═══════════════════════════════════════════
+    function updateEnergyDial(val) {
+      const pct = parseInt(val) / 100;
+      const needle = document.getElementById('energyNeedle');
+      const arc = document.getElementById('energyArc');
+      if (needle) { const deg = -45 + (pct * 90); needle.style.transform = `translateX(-50%) rotate(${deg}deg)`; }
+      const arcColors = ['#5b8ac4', '#8b7dbe', '#5c8c6e', '#f6c90e', '#f4a445', '#e05c4b'];
+      const colorIdx = Math.floor(pct * (arcColors.length - 1));
+      if (arc) arc.style.borderTopColor = arcColors[colorIdx];
+      document.getElementById('energyValue').textContent = val + '%';
+      const labels = ['Drained', 'Low', 'Neutral', 'Okay', 'Good', 'Energised', 'Glowing'];
+      document.getElementById('energyLabel').textContent = labels[Math.round(pct * (labels.length - 1))];
+      S.wellness = parseInt(val); updateStageUI(); logMoodPoint('Energy dial', parseInt(val));
+    }
+    function shareEnergyInChat() {
+      const val = document.getElementById('energySlider')?.value || 50;
+      const label = document.getElementById('energyLabel')?.textContent || '';
+      closeModal('energyModal');
+      addMsg('ai', `⚡ Energy at ${val}% — ${label}. I hear you. ${parseInt(val) < 40 ? "What's been draining you? I'd really like to know. 💙" : parseInt(val) > 70 ? "That's beautiful to hear! What's been feeding your energy? 🌟" : "Let's see if we can find a little more light together. 🌿"}`);
+    }
+
+    // ═══════════════════════════════════════════
+    //  FEATURE 15 — INSPIRATIONAL PERSON PROFILES (free Wikipedia API)
+    // ═══════════════════════════════════════════
+    const INSPO_PEOPLE = [
+      'Frida Kahlo', 'Maya Angelou', 'Nelson Mandela', 'Malala Yousafzai', 'Brené Brown',
+      'Fred Rogers', 'Toni Morrison', 'Thich Nhat Hanh', 'Viktor Frankl', 'Glennon Doyle',
+      'Chimamanda Ngozi Adichie', 'bell hooks', 'Desmond Tutu', 'Rumi', 'Khalil Gibran',
+    ];
+    async function loadInspirationProfile() {
+      const person = INSPO_PEOPLE[Math.floor(Math.random() * INSPO_PEOPLE.length)];
+      try {
+        const r = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(person)}`);
+        const d = await r.json();
+        const summary = d.extract?.split('.').slice(0, 2).join('.') + '.';
+        const thumb = d.thumbnail?.source;
+        const msgs = document.getElementById('messages');
+        const outer = document.createElement('div'); outer.className = 'msg ai';
+        const av = document.createElement('div'); av.className = 'msg-avatar'; av.textContent = STAGES[S.stage].emoji; outer.appendChild(av);
+        const col = document.createElement('div'); col.className = 'msg-col';
+        const bub = document.createElement('div'); bub.className = 'bubble'; bub.textContent = `✨ Someone whose story might inspire you today:\n\n${person}: ${summary}\n\nYour story matters just as much. 💙`; col.appendChild(bub);
+        if (thumb) { const card = document.createElement('div'); card.className = 'img-card'; card.innerHTML = `<img src="${thumb}" alt="${person}" style="max-height:120px;border-radius:8px" loading="lazy"/><div class="img-caption">✨ ${person}</div>`; col.appendChild(card); }
+        addReactionRow(col); outer.appendChild(col); msgs.appendChild(outer); msgs.scrollTop = msgs.scrollHeight;
+        S.history.push({ role: 'assistant', content: `Shared profile: ${person}` }); affectionBurst('✨💙🌟');
+      } catch (e) { addMsg('ai', `✨ "${INSPO_PEOPLE[Math.floor(Math.random() * INSPO_PEOPLE.length)]} once said: you alone are enough. You have nothing to prove to anybody. — Maya Angelou" 💙`); }
+    }
+
+    // ═══════════════════════════════════════════
+    //  FEATURE 16 — PATCH init to add all new features to menus
+    // ═══════════════════════════════════════════
+    setTimeout(() => {
+      // Add mantra ticker to DOM
+      const ticker = document.createElement('div'); ticker.id = 'mantraTicker';
+      ticker.innerHTML = '<span id="mantraText"></span>'; document.body.appendChild(ticker);
+
+      // Extend activity tray
+      const tray = document.querySelector('.activity-tray');
+      if (tray) {
+        [
+          { icon: '🎡', text: 'Emotion wheel', fn: () => { buildEmotionWheel(); openModal('emotionWheelModal'); } },
+          { icon: '✅', text: 'Habit tracker', fn: () => { renderHabits(); openModal('habitModal'); } },
+          { icon: '🌳', text: 'Gratitude tree', fn: () => { renderGratitudeTree(); openModal('gratitudeTreeModal'); } },
+          { icon: '🫙', text: 'Worry jar', fn: () => openModal('worryJarModal') },
+          { icon: '🌸', text: 'Mantra ticker', fn: toggleMantraTicker },
+          { icon: '🔮', text: 'Tarot card', fn: () => { openModal('tarotModal'); } },
+          { icon: '💭', text: 'CBT thought', fn: () => openModal('cbtModal') },
+          { icon: '🎵', text: 'Soundscape', fn: () => openModal('soundscapeModal') },
+          { icon: '🎂', text: 'Countdowns', fn: () => { renderEvents(); openModal('countdownModal'); } },
+          { icon: '⭐', text: 'Constellation', fn: () => { openModal('constellationModal'); setTimeout(drawConstellationMap, 200); } },
+          { icon: '📖', text: 'Story mode', fn: () => openModal('storyModal') },
+          { icon: '🎨', text: 'Chat themes', fn: () => { renderThemeGrid(); openModal('themesModal'); } },
+          { icon: '🛡', text: 'Safety plan', fn: () => { loadCrisisPlan(); openModal('crisisPlanModal'); } },
+          { icon: '⚡', text: 'Energy dial', fn: () => openModal('energyModal') },
+          { icon: '✨', text: 'Inspire me', fn: loadInspirationProfile },
+        ].forEach(b => { const btn = document.createElement('button'); btn.className = 'act-btn'; btn.textContent = b.icon + ' ' + b.text; btn.onclick = b.fn; tray.appendChild(btn); });
+      }
+
+      // Extend supertools grid
+      const sgrid = document.getElementById('supertoolsGrid');
+      if (sgrid) {
+        [
+          { emoji: '🎡', name: 'Emotion Wheel', desc: 'Name what you feel', action: () => { closeModal('supertoolsModal'); buildEmotionWheel(); openModal('emotionWheelModal'); } },
+          { emoji: '✅', name: 'Habit Tracker', desc: '7-day streak view', action: () => { closeModal('supertoolsModal'); renderHabits(); openModal('habitModal'); } },
+          { emoji: '🌳', name: 'Gratitude Tree', desc: 'Growing leaf by leaf', action: () => { closeModal('supertoolsModal'); renderGratitudeTree(); openModal('gratitudeTreeModal'); } },
+          { emoji: '🫙', name: 'Worry Jar', desc: 'Put worries away', action: () => { closeModal('supertoolsModal'); openModal('worryJarModal'); } },
+          { emoji: '🔮', name: 'Tarot Oracle', desc: 'Draw a card', action: () => { closeModal('supertoolsModal'); openModal('tarotModal'); } },
+          { emoji: '💭', name: 'CBT Record', desc: 'Examine your thoughts', action: () => { closeModal('supertoolsModal'); openModal('cbtModal'); } },
+          { emoji: '🎵', name: 'Soundscape', desc: 'Mix nature sounds', action: () => { closeModal('supertoolsModal'); openModal('soundscapeModal'); } },
+          { emoji: '🎂', name: 'Countdowns', desc: 'Special days ahead', action: () => { closeModal('supertoolsModal'); renderEvents(); openModal('countdownModal'); } },
+          { emoji: '⭐', name: 'Constellation', desc: 'Your emotion journey', action: () => { closeModal('supertoolsModal'); openModal('constellationModal'); setTimeout(drawConstellationMap, 200); } },
+          { emoji: '📖', name: 'Story Mode', desc: 'Collaborative healing story', action: () => { closeModal('supertoolsModal'); openModal('storyModal'); } },
+          { emoji: '🎨', name: 'Chat Themes', desc: 'Personalise your space', action: () => { closeModal('supertoolsModal'); renderThemeGrid(); openModal('themesModal'); } },
+          { emoji: '🛡', name: 'Safety Plan', desc: 'Crisis care plan', action: () => { closeModal('supertoolsModal'); loadCrisisPlan(); openModal('crisisPlanModal'); } },
+          { emoji: '⚡', name: 'Energy Dial', desc: 'Track your energy', action: () => { closeModal('supertoolsModal'); openModal('energyModal'); } },
+          { emoji: '✨', name: 'Inspire Me', desc: 'Real humans, real strength', action: () => { closeModal('supertoolsModal'); loadInspirationProfile(); } },
+          { emoji: '🌸', name: 'Mantras', desc: 'Running affirmation tape', action: () => { closeModal('supertoolsModal'); toggleMantraTicker(); } },
+        ].forEach(t => { const div = document.createElement('div'); div.className = 'supertool-tile'; div.innerHTML = `<span class="st-emoji">${t.emoji}</span><div class="st-name">${t.name}</div><div class="st-desc">${t.desc}</div>`; div.onclick = t.action; sgrid.appendChild(div); });
+      }
+
+      // Re-register modal close handlers
+      document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(overlay.id); });
+      });
+
+      showToast('🌟 15 new features unlocked! Tap ⚡ to explore.', 'success', 5000);
+    }, 1100);
+  </script>
+
+  <!-- ═══════ NEW MODALS — MEGA BATCH ═══════ -->
+
+  <!-- EMOTION WHEEL -->
+  <div class="modal-overlay" id="emotionWheelModal">
+    <div class="modal" style="max-width:440px">
+      <button class="modal-close" onclick="closeModal('emotionWheelModal')">✕</button>
+      <h2>🎡 Emotion Wheel</h2>
+      <p>Tap the emotion that feels closest to where you are right now.</p>
+      <div id="emotionWheelContainer" style="margin:16px 0"></div>
+      <div id="emotionWheelLabel"
+        style="text-align:center;font-size:14px;color:var(--text-muted);min-height:20px;margin-bottom:8px"></div>
+      <button id="ewheelSendBtn" class="breath-start" onclick="sendWheelEmotionToChat()"
+        style="display:none;width:100%;background:var(--sage);color:white;border-color:var(--sage)">💬 Tell my
+        companion</button>
+      <div style="margin-top:12px;display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+        ${EMOTION_WHEEL_DATA.slice(0,8).map(em=>`<button class="breath-start"
+          onclick="selectWheelEmotion(${JSON.stringify(em).replace(/" /g,'&quot;')})"
+          style="font-size:11px;padding:8px 4px;text-align:center">${em.emoji}<br><span
+            style="font-size:9px">${em.name}</span></button>`).join('')}
+      </div>
+    </div>
+  </div>
+
+  <!-- HABIT TRACKER -->
+  <div class="modal-overlay" id="habitModal">
+    <div class="modal" style="max-width:540px;max-height:85vh;overflow-y:auto">
+      <button class="modal-close" onclick="closeModal('habitModal')">✕</button>
+      <h2>✅ Habit Tracker</h2>
+      <p id="habitSummary" style="color:var(--sage);font-weight:600;margin-bottom:12px">Loading…</p>
+      <div style="font-size:10px;color:var(--text-hint);text-align:right;margin-bottom:6px">← 7 days → Today</div>
+      <div id="habitList" style="display:flex;flex-direction:column;gap:7px;margin-bottom:12px"></div>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <input type="text" id="newHabitInput" placeholder="Add your own habit…" style="flex:1"
+          onkeydown="if(event.key==='Enter')addCustomHabit()" />
+        <button class="media-play-btn" onclick="addCustomHabit()">+ Add</button>
+      </div>
+      <p style="font-size:11px;color:var(--text-hint);margin-top:10px">💡 Tap a dot to mark today's habit as done. Dots
+        show the last 7 days.</p>
+    </div>
+  </div>
+
+  <!-- GRATITUDE TREE -->
+  <div class="modal-overlay" id="gratitudeTreeModal">
+    <div class="modal" style="max-width:500px;max-height:85vh;overflow-y:auto">
+      <button class="modal-close" onclick="closeModal('gratitudeTreeModal')">✕</button>
+      <h2>🌳 Gratitude Tree</h2>
+      <p>Add things you're grateful for — each one becomes a leaf on your tree. Watch it grow. 🍃</p>
+      <div style="display:flex;gap:8px;margin:12px 0">
+        <input type="text" id="gratitudeLeafInput" placeholder="I'm grateful for…" style="flex:1"
+          onkeydown="if(event.key==='Enter')submitGratitudeLeaf()" />
+        <button class="media-play-btn" onclick="submitGratitudeLeaf()">🍃 Add leaf</button>
+      </div>
+      <div style="text-align:center;font-size:48px;margin:8px 0">🌳</div>
+      <div id="gratitudeTreeLeaves" style="text-align:center;min-height:60px;line-height:1.8"></div>
+      <button class="breath-start" onclick="shareTreeInChat()"
+        style="width:100%;margin-top:12px;background:var(--sage);color:white;border-color:var(--sage)">🌳 Share my
+        tree</button>
+    </div>
+  </div>
+
+  <!-- WORRY JAR -->
+  <div class="modal-overlay" id="worryJarModal">
+    <div class="modal" style="max-width:480px;max-height:85vh;overflow-y:auto">
+      <button class="modal-close" onclick="closeModal('worryJarModal')">✕</button>
+      <h2>🫙 Worry Jar</h2>
+      <p>Put your worry in the jar. You don't have to carry it right now. It will wait there until you're ready to look
+        at it — or let it go. 💙</p>
+      <div style="text-align:center;font-size:52px;margin:8px 0;animation:iconFloat 3s ease-in-out infinite">🫙</div>
+      <textarea id="worryJarInput" placeholder="What's been weighing on you?…"
+        style="width:100%;min-height:80px;margin:8px 0;border-radius:12px;padding:12px 16px;border:.5px solid var(--border);background:var(--surface2);color:var(--text);font-family:'Sora',sans-serif;font-size:13px;resize:vertical;outline:none"></textarea>
+      <button class="breath-start" onclick="submitWorry()"
+        style="width:100%;background:linear-gradient(135deg,var(--lavender),var(--sage));color:white;border-color:transparent">🫙
+        Put it in the jar</button>
+      <div id="worryList" style="margin-top:14px"></div>
+      <button onclick="renderWorries();document.getElementById('worryList').scrollIntoView({behavior:'smooth'})"
+        class="breath-start" style="width:100%;margin-top:6px;font-size:12px">📋 See my jar contents</button>
+    </div>
+  </div>
+
+  <!-- TAROT CARD -->
+  <div class="modal-overlay" id="tarotModal">
+    <div class="modal" style="max-width:420px">
+      <button class="modal-close" onclick="closeModal('tarotModal')">✕</button>
+      <h2>🔮 Oracle Card</h2>
+      <p>Take a breath. When you're ready, draw your card. 🌙</p>
+      <div class="tarot-card-display" id="tarotCardDisplay" onclick="drawTarotCard()" style="margin:20px auto">
+        <div class="tarot-inner">
+          <div class="tarot-back">
+            <div style="font-size:48px;animation:iconFloat 3s ease-in-out infinite">🌙</div>
+            <div style="color:rgba(200,184,240,.7);font-size:13px;margin-top:12px">Tap to draw</div>
+            <div style="position:absolute;inset:8px;border:1px solid rgba(139,125,190,.2);border-radius:8px"></div>
+          </div>
+          <div class="tarot-face">
+            <div id="tarotCardEmoji" style="font-size:44px"></div>
+            <div id="tarotCardName"
+              style="font-family:'Instrument Serif',serif;font-size:18px;color:#e8d8ff;margin:10px 0 6px"></div>
+            <div id="tarotCardMeaning" style="font-size:12px;color:rgba(200,184,240,.8);line-height:1.6"></div>
+            <div id="tarotAffirmation"
+              style="font-size:11px;color:rgba(200,184,240,.6);margin-top:8px;font-style:italic;border-top:1px solid rgba(139,125,190,.2);padding-top:8px">
+            </div>
+          </div>
+        </div>
+      </div>
+      <button id="tarotShareBtn" class="breath-start" onclick="shareTarotInChat()"
+        style="display:none;width:100%;background:linear-gradient(135deg,#1a1030,#2a1860);color:#c8b8f0;border-color:rgba(139,125,190,.4)">🔮
+        Discuss in chat</button>
+      <p style="font-size:11px;color:var(--text-hint);text-align:center;margin-top:10px">22 Major Arcana · Tap card to
+        draw again</p>
+    </div>
+  </div>
+
+  <!-- CBT THOUGHT RECORD -->
+  <div class="modal-overlay" id="cbtModal">
+    <div class="modal" style="max-width:500px;max-height:85vh;overflow-y:auto">
+      <button class="modal-close" onclick="closeModal('cbtModal')">✕</button>
+      <h2>💭 Thought Record</h2>
+      <p>CBT-based thought examination — gently challenge the stories in your mind. 💙</p>
+      <div class="field-group" style="margin:10px 0">
+        <span class="field-label">What happened? (situation)</span>
+        <textarea id="cbtSituation" placeholder="e.g. My friend didn't reply to my message"
+          style="width:100%;min-height:60px;border-radius:10px;padding:10px 14px;border:.5px solid var(--border);background:var(--surface2);color:var(--text);font-family:'Sora',sans-serif;font-size:13px;resize:vertical;outline:none"></textarea>
+      </div>
+      <div class="field-group" style="margin:10px 0">
+        <span class="field-label">What did you think? (automatic thought)</span>
+        <textarea id="cbtThought" placeholder="e.g. They hate me. I always push people away."
+          style="width:100%;min-height:60px;border-radius:10px;padding:10px 14px;border:.5px solid var(--border);background:var(--surface2);color:var(--text);font-family:'Sora',sans-serif;font-size:13px;resize:vertical;outline:none"></textarea>
+      </div>
+      <div class="field-group" style="margin:10px 0">
+        <span class="field-label">How did you feel? (emotion + intensity %)</span>
+        <input type="text" id="cbtFeeling" placeholder="e.g. Anxious 80%, Sad 60%" />
+      </div>
+      <button class="breath-start" onclick="analyzeCBTThought()"
+        style="width:100%;background:var(--lavender);color:white;border-color:var(--lavender)">💭 Examine this
+        thought</button>
+      <div id="cbtResult" style="margin-top:12px;display:none"></div>
+    </div>
+  </div>
+
+  <!-- SOUNDSCAPE MIXER -->
+  <div class="modal-overlay" id="soundscapeModal">
+    <div class="modal" style="max-width:460px">
+      <button class="modal-close" onclick="closeModal('soundscapeModal')">✕</button>
+      <h2>🎵 Soundscape Mixer</h2>
+      <p>Layer nature sounds to create your perfect calming environment.</p>
+      <div style="display:flex;flex-direction:column;gap:8px;margin:14px 0">
+        ${SOUNDSCAPE_LAYERS.map(s=>`
+        <div class="sound-layer">
+          <button class="sound-toggle-btn breath-start"
+            onclick="toggleSoundLayer('${s.name}','${s.url}','${s.fallbackUrl}',this)"
+            style="width:80px;flex-shrink:0;font-size:12px">${s.emoji} ${s.name}</button>
+          <input type="range" class="sound-vol" min="0" max="1" step="0.05" value="0.4"
+            oninput="setSoundVolume('${s.name}',this.value)" />
+          <span style="font-size:10px;color:var(--text-hint);width:24px;text-align:right">🔊</span>
+        </div>`).join('')}
+      </div>
+      <button class="breath-start" onclick="stopAllSounds()"
+        style="width:100%;color:var(--rose);border-color:var(--rose)">🔇 Stop all sounds</button>
+      <p style="font-size:11px;color:var(--text-hint);text-align:center;margin-top:10px">💡 Mix multiple layers for a
+        custom soundscape. Sounds loop continuously.</p>
+    </div>
+  </div>
+
+  <!-- EVENT COUNTDOWN -->
+  <div class="modal-overlay" id="countdownModal">
+    <div class="modal" style="max-width:480px;max-height:85vh;overflow-y:auto">
+      <button class="modal-close" onclick="closeModal('countdownModal')">✕</button>
+      <h2>🎂 Special Countdowns</h2>
+      <p>Upcoming birthdays and events — things to look forward to. 🎉</p>
+      <div style="display:grid;grid-template-columns:2fr 1fr auto auto;gap:8px;align-items:end;margin:12px 0">
+        <input type="text" id="eventName" placeholder="Birthday, anniversary…" />
+        <input type="date" id="eventDate"
+          style="padding:10px 12px;border:.5px solid var(--border);border-radius:var(--radius-xs);background:var(--surface2);color:var(--text);font-family:'Sora',sans-serif;font-size:13px;outline:none" />
+        <input type="text" id="eventEmoji" placeholder="🎂"
+          style="width:50px;text-align:center;padding:10px 6px;border:.5px solid var(--border);border-radius:var(--radius-xs);background:var(--surface2);color:var(--text);font-size:16px;outline:none" />
+        <button class="media-play-btn" onclick="addEvent()" style="height:42px">Add</button>
+      </div>
+      <div id="eventList"></div>
+    </div>
+  </div>
+
+  <!-- CONSTELLATION MAP -->
+  <div class="modal-overlay" id="constellationModal">
+    <div class="modal" style="max-width:460px">
+      <button class="modal-close" onclick="closeModal('constellationModal')">✕</button>
+      <h2>⭐ Emotion Constellation</h2>
+      <p>Your emotional journey mapped as stars. Every feeling is part of your unique constellation. ✨</p>
+      <canvas id="constellationCanvas" class="constellation-canvas"
+        style="width:100%;height:200px;margin:14px 0"></canvas>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px">
+        ${Object.entries({calm:'#5c8c6e',joy:'#f6c90e',love:'#c26b7a',worried:'#c07a50',sad:'#5b8ac4',dark:'#6a5fa0'}).map(([k,c])=>
+        `<span style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text-muted)"><span
+            style="width:10px;height:10px;border-radius:50%;background:${c};display:inline-block"></span>${k}</span>`
+        ).join('')}
+      </div>
+      <button class="breath-start" onclick="drawConstellationMap()" style="width:100%;margin-top:10px">✨ Refresh
+        map</button>
+    </div>
+  </div>
+
+  <!-- STORY MODE -->
+  <div class="modal-overlay" id="storyModal">
+    <div class="modal" style="max-width:520px;max-height:85vh;overflow-y:auto">
+      <button class="modal-close" onclick="closeModal('storyModal')">✕</button>
+      <h2>📖 Story Mode</h2>
+      <p>We write a healing story together — you add a line, I continue it. Magic happens. ✨</p>
+      <div id="storyDisplay"
+        style="min-height:120px;max-height:260px;overflow-y:auto;padding:14px;background:linear-gradient(160deg,#0f0a1a,#080d18);border-radius:var(--radius-sm);color:#e8e0ff;font-family:'Instrument Serif',serif;font-size:15px;line-height:1.8;margin:12px 0">
+        <p style="color:rgba(200,184,240,.5);text-align:center;font-size:13px;font-family:'Sora',sans-serif">Your story
+          begins here… ✨</p>
+      </div>
+      <div style="margin-bottom:8px">
+        <span class="field-label">Choose a story seed or write your own:</span>
+        <div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:6px">
+          ${STORY_SEEDS.map((s,i)=>`<button class="chip" onclick="continueStory('${escJS(s)}')"
+            style="font-size:10px;max-width:200px;white-space:normal;height:auto;padding:5px 10px;text-align:left">Seed
+            ${i+1}</button>`).join('')}
+        </div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <input type="text" id="storyInput" placeholder="Add your line to the story…" style="flex:1"
+          onkeydown="if(event.key==='Enter')continueStory(null)" />
+        <button class="media-play-btn" onclick="continueStory(null)">✍️ Continue</button>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button class="breath-start" onclick="shareStoryInChat()"
+          style="flex:1;background:var(--lavender);color:white;border-color:var(--lavender)">💬 Share in chat</button>
+        <button class="breath-start" onclick="resetStory()" style="flex:1;color:var(--text-muted)">🔄 New story</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHAT THEMES -->
+  <div class="modal-overlay" id="themesModal">
+    <div class="modal" style="max-width:440px">
+      <button class="modal-close" onclick="closeModal('themesModal')">✕</button>
+      <h2>🎨 Chat Themes</h2>
+      <p>Personalise the look and feel of your companion space.</p>
+      <div id="themeGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px"></div>
+    </div>
+  </div>
+
+  <!-- CRISIS / SAFETY PLAN -->
+  <div class="modal-overlay" id="crisisPlanModal">
+    <div class="modal" style="max-width:520px;max-height:85vh;overflow-y:auto">
+      <button class="modal-close" onclick="closeModal('crisisPlanModal')">✕</button>
+      <h2>🛡 My Safety Plan</h2>
+      <p>A personal plan for when things feel overwhelming. Saved locally, private, always here for you. 💙</p>
+      <div
+        style="background:var(--sage-light);border-radius:var(--radius-xs);padding:10px 14px;font-size:12px;color:var(--sage-dark);margin-bottom:14px">
+        💙 This is your personal safety plan. Fill in what feels right for you. It's here whenever you need it.
+      </div>
+      ${[
+      {id:'cpWarning',label:'⚠️ My warning signs (thoughts, feelings, behaviours that tell me I\'m struggling)',ph:'e.g.
+      I start isolating, I can\'t sleep, I feel hopeless…'},
+      {id:'cpCoping',label:'🌿 Things that help me cope (solo strategies)',ph:'e.g. Breathing exercises, walking
+      outside, journaling…'},
+      {id:'cpPeople',label:'🫂 People I can reach out to (name + contact)',ph:'e.g. My friend Alex: 555-1234, My
+      sister…'},
+      {id:'cpPlaces',label:'🏡 Safe places I can go',ph:'e.g. My room with music on, the park near my house…'},
+      {id:'cpReasons',label:'💛 My reasons for staying (what makes life worth it)',ph:'e.g. My dog, my best friend, the
+      person I\'m becoming…'},
+      ].map(f=>`<div class="field-group" style="margin-bottom:10px">
+        <span class="field-label">${f.label}</span>
+        <textarea id="${f.id}" placeholder="${f.ph}"
+          style="width:100%;min-height:70px;border-radius:10px;padding:10px 14px;border:.5px solid var(--border);background:var(--surface2);color:var(--text);font-family:'Sora',sans-serif;font-size:13px;resize:vertical;outline:none;line-height:1.6"></textarea>
+      </div>`).join('')}
+      <button class="breath-start" onclick="saveCrisisPlan()"
+        style="width:100%;background:var(--sage);color:white;border-color:var(--sage);font-size:15px">💙 Save my
+        plan</button>
+      <p style="font-size:11px;color:var(--text-hint);text-align:center;margin-top:10px">Saved to this device only.
+        Never sent anywhere. 🔒</p>
+    </div>
+  </div>
+
+  <!-- ENERGY DIAL -->
+  <div class="modal-overlay" id="energyModal">
+    <div class="modal" style="max-width:380px">
+      <button class="modal-close" onclick="closeModal('energyModal')">✕</button>
+      <h2>⚡ Energy Level</h2>
+      <p>How much energy do you have right now? Let me know and I'll meet you there. 💙</p>
+      <div style="margin:24px 0 8px">
+        <div class="energy-dial">
+          <div class="energy-arc" id="energyArc" style="border-top-color:var(--sage)"></div>
+          <div class="energy-needle" id="energyNeedle"></div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-bottom:4px">
+        <span id="energyValue" style="font-family:'Instrument Serif',serif;font-size:36px;color:var(--sage)">50%</span>
+      </div>
+      <div id="energyLabel" style="text-align:center;font-size:14px;color:var(--text-muted);margin-bottom:14px">Neutral
+      </div>
+      <input type="range" id="energySlider" min="0" max="100" value="50" oninput="updateEnergyDial(this.value)"
+        style="width:100%;accent-color:var(--sage)" />
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-hint);margin-top:4px">
+        <span>Drained</span><span>Glowing</span>
+      </div>
+      <button class="breath-start" onclick="shareEnergyInChat()"
+        style="width:100%;margin-top:14px;background:var(--sage);color:white;border-color:var(--sage)">💬 Tell my
+        companion</button>
+    </div>
+  </div>
+
 </body>
 
 </html>
