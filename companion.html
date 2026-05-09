@@ -13319,6 +13319,1300 @@ When someone is happy: CELEBRATE wildly. When broken: sit fully in the dark with
     })(); // end CAAS
   </script>
 
+
+  <!-- ══════════════════════════════════════════════════════════════════
+     ✦ CAAS ULTRA EXPANSION PACK v7 ✦
+     20+ NEW SYSTEMS: Morphing Orb · Lightning · Firefly Swarm ·
+     Black Hole Vortex · DNA Helix · Floating Islands · Snow Globe ·
+     Neon Grid · Lava Lamp · Wormhole · Ink Bloom · Smoke Tendrils ·
+     Holographic HUD · Glitch Effect · Rainbow Prism · Meteor Shower ·
+     3D Spiral Galaxy · Quantum Foam · Breathing Universe · Sound Waves
+══════════════════════════════════════════════════════════════════════ -->
+
+  <!-- EXTRA CANVASES -->
+  <canvas id="c_galaxy"
+    style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:0;transition:opacity 2s"></canvas>
+  <canvas id="c_firefly"
+    style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;opacity:0;transition:opacity 1.5s"></canvas>
+  <canvas id="c_waveform"
+    style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;opacity:.8"></canvas>
+  <div id="c_glitch" style="position:fixed;inset:0;pointer-events:none;z-index:99;display:none"></div>
+  <div id="c_hud" style="position:fixed;inset:0;pointer-events:none;z-index:5;opacity:0;transition:opacity .5s"></div>
+
+  <style>
+    /* ══ MORPHING AVATAR ORB (3D-feel) ══ */
+    .avatar-orb {
+      background: linear-gradient(135deg,
+          var(--sage) 0%, var(--lavender) 50%, var(--rose) 100%) !important;
+      background-size: 300% 300% !important;
+      animation: orbMorph 8s ease-in-out infinite, avatarBreath 5s ease-in-out infinite !important;
+      position: relative;
+      overflow: visible !important;
+    }
+
+    @keyframes orbMorph {
+      0% {
+        background-position: 0% 50%;
+        border-radius: 50%;
+      }
+
+      25% {
+        background-position: 50% 0%;
+        border-radius: 45% 55% 55% 45% / 45% 45% 55% 55%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+        border-radius: 50%;
+      }
+
+      75% {
+        background-position: 50% 100%;
+        border-radius: 55% 45% 45% 55% / 55% 55% 45% 45%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+        border-radius: 50%;
+      }
+    }
+
+    /* ══ HOLOGRAPHIC SCANLINE EFFECT ON AVATAR ══ */
+    .avatar-orb::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: repeating-linear-gradient(0deg, transparent 0px, transparent 3px,
+          rgba(255, 255, 255, .04) 3px, rgba(255, 255, 255, .04) 4px);
+      animation: scanMove 3s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes scanMove {
+      0% {
+        background-position: 0 0
+      }
+
+      100% {
+        background-position: 0 100px
+      }
+    }
+
+    /* ══ NEON GLOW ON MESSAGES ══ */
+    .msg.ai .bubble {
+      transition: box-shadow .6s ease;
+    }
+
+    .msg.ai .bubble.neon-pulse {
+      box-shadow: 0 0 20px rgba(139, 125, 190, .4), 0 0 40px rgba(139, 125, 190, .2), inset 0 0 10px rgba(139, 125, 190, .05);
+    }
+
+    /* ══ GLITCH TEXT EFFECT ══ */
+    .glitch-active {
+      animation: glitchText .3s steps(1) infinite !important;
+    }
+
+    @keyframes glitchText {
+      0% {
+        text-shadow: 2px 0 #ff0000, -2px 0 #0000ff;
+        transform: translate(0);
+      }
+
+      25% {
+        text-shadow: -2px 0 #ff0000, 2px 0 #0000ff;
+        transform: translate(-2px, 1px);
+      }
+
+      50% {
+        text-shadow: 2px 0 #00ff00, -2px 0 #ff00ff;
+        transform: translate(2px, -1px);
+      }
+
+      75% {
+        text-shadow: 0 2px #ff0000, 0 -2px #0000ff;
+        transform: translate(-1px, 2px);
+      }
+
+      100% {
+        text-shadow: none;
+        transform: translate(0);
+      }
+    }
+
+    /* ══ HOLOGRAPHIC HUD ELEMENTS ══ */
+    .hud-ring {
+      position: absolute;
+      border: 1px solid;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: hudSpin linear infinite;
+    }
+
+    @keyframes hudSpin {
+      from {
+        transform: translate(-50%, -50%) rotate(0deg);
+      }
+
+      to {
+        transform: translate(-50%, -50%) rotate(360deg);
+      }
+    }
+
+    .hud-line {
+      position: absolute;
+      background: linear-gradient(90deg, transparent, rgba(92, 140, 110, .6), transparent);
+      height: 1px;
+      pointer-events: none;
+      animation: hudScan 2s ease-in-out infinite;
+    }
+
+    @keyframes hudScan {
+
+      0%,
+      100% {
+        opacity: 0;
+        transform: scaleX(0);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scaleX(1);
+      }
+    }
+
+    .hud-dot {
+      position: absolute;
+      border-radius: 50%;
+      animation: hudBlink 1.2s ease-in-out infinite;
+    }
+
+    @keyframes hudBlink {
+
+      0%,
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0);
+      }
+
+      50% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+
+    .hud-corner {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-color: rgba(92, 140, 110, .5);
+      border-style: solid;
+      pointer-events: none;
+      animation: hudFade 3s ease-in-out infinite;
+    }
+
+    @keyframes hudFade {
+
+      0%,
+      100% {
+        opacity: .3
+      }
+
+      50% {
+        opacity: .8
+      }
+    }
+
+    /* ══ LAVA LAMP BLOBS ══ */
+    .lava-blob {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(40px);
+      opacity: 0;
+      animation: blobRise var(--dur, 12s) ease-in-out infinite var(--delay, 0s);
+      z-index: 0;
+    }
+
+    @keyframes blobRise {
+      0% {
+        opacity: 0;
+        transform: translateY(20px) scale(.8);
+        border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      }
+
+      20% {
+        opacity: var(--op, .08);
+      }
+
+      50% {
+        opacity: var(--op, .08);
+        transform: translateY(-30px) scale(1.1);
+        border-radius: 45% 55% 60% 40% / 50% 50% 50% 50%;
+      }
+
+      80% {
+        opacity: var(--op, .08);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateY(10px) scale(.9);
+        border-radius: 50%;
+      }
+    }
+
+    /* ══ SNOW PARTICLES ══ */
+    .snow-particle {
+      position: fixed;
+      border-radius: 50%;
+      background: white;
+      pointer-events: none;
+      z-index: 1;
+      animation: snowFall var(--dur, 6s) linear var(--delay, 0s) infinite;
+    }
+
+    @keyframes snowFall {
+      0% {
+        transform: translateY(-20px) translateX(0) rotate(0deg);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: .7;
+      }
+
+      90% {
+        opacity: .5;
+      }
+
+      100% {
+        transform: translateY(110vh) translateX(var(--drift, 30px)) rotate(var(--rot, 360deg));
+        opacity: 0;
+      }
+    }
+
+    /* ══ METEOR SHOWER ══ */
+    .meteor {
+      position: fixed;
+      width: var(--w, 2px);
+      height: var(--h, 80px);
+      background: linear-gradient(to bottom, transparent, white, rgba(255, 255, 255, 0));
+      border-radius: 2px;
+      pointer-events: none;
+      z-index: 1;
+      animation: meteorFall var(--dur, .8s) linear forwards;
+    }
+
+    @keyframes meteorFall {
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) rotate(var(--angle, 35deg));
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate(var(--tx, 200px), var(--ty, 400px)) rotate(var(--angle, 35deg));
+      }
+    }
+
+    /* ══ INK BLOOM ══ */
+    .ink-bloom {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 2;
+      filter: blur(8px);
+      animation: inkBloom var(--dur, 2.5s) ease-out forwards;
+    }
+
+    @keyframes inkBloom {
+      0% {
+        opacity: .8;
+        transform: translate(-50%, -50%) scale(0);
+        filter: blur(2px);
+      }
+
+      40% {
+        opacity: .6;
+        transform: translate(-50%, -50%) scale(1) rotate(20deg);
+        filter: blur(6px);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(2.5) rotate(60deg);
+        filter: blur(14px);
+      }
+    }
+
+    /* ══ VORTEX RING ══ */
+    .vortex-ring {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 2;
+      border: 2px solid;
+      animation: vortexSpin var(--dur, 1.5s) ease-out forwards;
+    }
+
+    @keyframes vortexSpin {
+      0% {
+        opacity: .9;
+        transform: translate(-50%, -50%) scale(0) rotate(0deg);
+      }
+
+      60% {
+        opacity: .5;
+        transform: translate(-50%, -50%) scale(1) rotate(180deg);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(3) rotate(360deg);
+      }
+    }
+
+    /* ══ FIRE PARTICLE ══ */
+    .fire-particle {
+      position: fixed;
+      border-radius: 50% 50% 30% 30%;
+      pointer-events: none;
+      z-index: 3;
+      animation: fireFly var(--dur, 1.2s) ease-out forwards;
+    }
+
+    @keyframes fireFly {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1) translateY(0);
+        filter: blur(0);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--tx, 0px)), calc(-50% + var(--ty, -100px))) scale(.1);
+        filter: blur(4px);
+      }
+    }
+
+    /* ══ ELECTRIC ARC ══ */
+    .electric-arc {
+      position: fixed;
+      pointer-events: none;
+      z-index: 4;
+      animation: arcFlash var(--dur, .6s) ease-out forwards;
+    }
+
+    @keyframes arcFlash {
+
+      0%,
+      40% {
+        opacity: 1;
+      }
+
+      60% {
+        opacity: .5;
+      }
+
+      100% {
+        opacity: 0;
+      }
+    }
+
+    /* ══ BUBBLE POP ══ */
+    .bubble-pop {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 3;
+      border: 1.5px solid;
+      animation: bubblePop var(--dur, 1.8s) ease-out forwards;
+    }
+
+    @keyframes bubblePop {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0) translateY(20px);
+      }
+
+      20% {
+        opacity: .7;
+      }
+
+      70% {
+        opacity: .5;
+        transform: translate(-50%, -50%) scale(1) translateY(var(--ty, -100px));
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1.3) translateY(calc(var(--ty, -100px) - 20px));
+        filter: blur(4px);
+      }
+    }
+
+    /* ══ DNA HELIX SPINNER (on avatar) ══ */
+    .dna-strand {
+      position: fixed;
+      pointer-events: none;
+      z-index: 3;
+      animation: dnaFloat var(--dur, 2s) ease-out forwards;
+    }
+
+    @keyframes dnaFloat {
+      0% {
+        opacity: 1;
+        transform: translate(var(--sx, 0px), var(--sy, 0px)) scale(.5);
+      }
+
+      50% {
+        opacity: .8;
+        transform: translate(var(--mx, 20px), var(--my, -60px)) scale(1) rotate(180deg);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate(var(--ex, 40px), var(--ey, -120px)) scale(.3) rotate(360deg);
+      }
+    }
+
+    /* ══ RAINBOW PRISM ══ */
+    .prism-ray {
+      position: fixed;
+      pointer-events: none;
+      z-index: 2;
+      transform-origin: left center;
+      animation: prismFade var(--dur, 1.5s) ease-out forwards;
+      height: 2px;
+      border-radius: 2px;
+    }
+
+    @keyframes prismFade {
+      0% {
+        opacity: 0;
+        transform: rotate(var(--angle, 0deg)) scaleX(0);
+      }
+
+      30% {
+        opacity: .7;
+      }
+
+      100% {
+        opacity: 0;
+        transform: rotate(var(--angle, 0deg)) scaleX(1);
+      }
+    }
+
+    /* ══ SMOKE TENDRIL ══ */
+    .smoke {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+      filter: blur(20px);
+      animation: smokeRise var(--dur, 4s) ease-out forwards;
+    }
+
+    @keyframes smokeRise {
+      0% {
+        opacity: .4;
+        transform: translate(-50%, -50%) scale(.3) rotate(0deg);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--dx, 20px)), calc(-50% + var(--dy, -200px))) scale(2) rotate(var(--rot, 90deg));
+      }
+    }
+
+    /* ══ QUANTUM FOAM DOTS ══ */
+    .quantum-dot {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 2;
+      animation: quantumBlink var(--dur, .4s) ease-in-out var(--delay, 0s) forwards;
+    }
+
+    @keyframes quantumBlink {
+
+      0%,
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0);
+      }
+
+      50% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+
+    /* ══ WORMHOLE SWIRL ══ */
+    .wormhole-layer {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 3;
+      border: 2px solid;
+      filter: blur(.5px);
+      animation: wormholePull var(--dur, 2s) ease-in forwards;
+    }
+
+    @keyframes wormholePull {
+      0% {
+        opacity: .9;
+        transform: translate(-50%, -50%) scale(1) rotate(0deg);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0) rotate(720deg);
+      }
+    }
+  </style>
+
+  <script>
+    // ════════════════════════════════════════════════════════════════════
+    //  ✦ CAAS EXPANSION PACK v7 ✦ — 20 NEW EFFECT SYSTEMS
+    // ════════════════════════════════════════════════════════════════════
+    (function CAAS_X() {
+      'use strict';
+
+      const W = () => window.innerWidth, H = () => window.innerHeight;
+      const DOM = () => document.getElementById('c_dom_fx');
+      const rnd = (a, b) => Math.random() * (b - a) + a;
+      const rndInt = (a, b) => Math.floor(rnd(a, b + 1));
+      const choice = (arr) => arr[rndInt(0, arr.length - 1)];
+
+      // ════════════════════════════════════════════════════════════════
+      //  SYSTEM 11: 3D SPIRAL GALAXY (Three.js)
+      // ════════════════════════════════════════════════════════════════
+      function waitThree(cb, t = 0) { if (typeof THREE !== 'undefined') cb(); else if (t < 40) setTimeout(() => waitThree(cb, t + 1), 250); }
+
+      waitThree(() => {
+        // ── Galaxy Canvas ──
+        const canvas = document.getElementById('c_galaxy'); if (!canvas) return;
+        const R = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+        R.setPixelRatio(Math.min(devicePixelRatio, 2));
+        R.setSize(W(), H());
+        const scene = new THREE.Scene();
+        const cam = new THREE.PerspectiveCamera(55, W() / H(), .1, 2000);
+        cam.position.set(0, 80, 200);
+        cam.lookAt(0, 0, 0);
+
+        // Galaxy geometry
+        const N = 6000;
+        const pos = new Float32Array(N * 3), col = new Float32Array(N * 3), sz = new Float32Array(N);
+        const branches = 4, spin = 1.2, rand = .5, randPow = 3;
+        for (let i = 0; i < N; i++) {
+          const r = Math.random() * 120;
+          const branch = (i % branches) / branches * Math.PI * 2;
+          const spinAngle = r * spin * .01;
+          const rx = Math.pow(Math.random(), randPow) * (Math.random() < .5 ? 1 : -1) * rand * r * .1;
+          const ry = Math.pow(Math.random(), randPow) * (Math.random() < .5 ? 1 : -1) * rand * r * .05;
+          const rz = Math.pow(Math.random(), randPow) * (Math.random() < .5 ? 1 : -1) * rand * r * .1;
+          pos[i * 3] = Math.cos(branch + spinAngle) * (r * .5) + rx;
+          pos[i * 3 + 1] = ry;
+          pos[i * 3 + 2] = Math.sin(branch + spinAngle) * (r * .5) + rz;
+          const t = r / 120;
+          col[i * 3] = .36 + t * .4; col[i * 3 + 1] = .55 - t * .2 + Math.random() * .1; col[i * 3 + 2] = .43 + t * .4;
+          sz[i] = Math.random() * 1.2 + .2;
+        }
+        const geo = new THREE.BufferGeometry();
+        geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+        geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
+        geo.setAttribute('size', new THREE.BufferAttribute(sz, 1));
+        const mat = new THREE.ShaderMaterial({
+          uniforms: { uTime: { value: 0 }, uIntensity: { value: 0 } },
+          vertexShader: `
+      attribute float size;attribute vec3 color;
+      uniform float uTime,uIntensity;
+      varying vec3 vColor;varying float vAlpha;
+      void main(){
+        vColor=color;
+        float tw=sin(uTime*.5+length(position)*.05)*.3+.7;
+        vAlpha=tw*uIntensity;
+        vec4 mv=modelViewMatrix*vec4(position,1.);
+        gl_PointSize=size*(350./-mv.z)*tw;
+        gl_Position=projectionMatrix*mv;
+      }`,
+          fragmentShader: `
+      varying vec3 vColor;varying float vAlpha;
+      void main(){
+        float d=length(gl_PointCoord-.5)*2.;
+        float a=smoothstep(1.,.0,d)*vAlpha;
+        gl_FragColor=vec4(vColor,a*.7);
+      }`,
+          transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, vertexColors: true,
+        });
+        const galaxy = new THREE.Points(geo, mat);
+        scene.add(galaxy);
+
+        window.addEventListener('resize', () => { cam.aspect = W() / H(); cam.updateProjectionMatrix(); R.setSize(W(), H()); });
+
+        // Fade in galaxy on dark/excited emotions
+        window._galaxyEmotion = function (key) {
+          const show = ['dark', 'excited', 'healing', 'calm'];
+          const target = show.includes(key) ? key === 'dark' ? .45 : .28 : 0;
+          const t0 = Date.now(), start = mat.uniforms.uIntensity.value;
+          (function s() {
+            const p = Math.min((Date.now() - t0) / 2000, 1);
+            mat.uniforms.uIntensity.value = start + (target - start) * p;
+            if (p < 1) requestAnimationFrame(s);
+          })();
+          canvas.style.opacity = target > 0 ? '1' : '0';
+        };
+
+        let t = 0;
+        (function loop() {
+          requestAnimationFrame(loop);
+          t += .008;
+          mat.uniforms.uTime.value = t;
+          galaxy.rotation.y += .0005;
+          R.render(scene, cam);
+        })();
+      });
+
+      // ════════════════════════════════════════════════════════════════
+      //  SYSTEM 12: FIREFLY SWARM (Three.js)
+      // ════════════════════════════════════════════════════════════════
+      waitThree(() => {
+        const canvas = document.getElementById('c_firefly'); if (!canvas) return;
+        const R = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+        R.setPixelRatio(Math.min(devicePixelRatio, 2));
+        R.setSize(W(), H());
+        const scene = new THREE.Scene();
+        const cam = new THREE.PerspectiveCamera(60, W() / H(), .1, 500);
+        cam.position.z = 60;
+
+        const N = 180;
+        const pos = new Float32Array(N * 3);
+        const data = [];
+        for (let i = 0; i < N; i++) {
+          data.push({
+            x: rnd(-80, 80), y: rnd(-60, 60), z: rnd(-20, 20),
+            tx: rnd(-80, 80), ty: rnd(-60, 60),
+            spd: rnd(.002, .008), ph: rnd(0, Math.PI * 2),
+            r: rnd(.1, .5), active: false,
+          });
+          pos[i * 3] = data[i].x; pos[i * 3 + 1] = data[i].y; pos[i * 3 + 2] = data[i].z;
+        }
+        const geo = new THREE.BufferGeometry();
+        geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+        const mat = new THREE.ShaderMaterial({
+          uniforms: { uTime: { value: 0 }, uColor: { value: new THREE.Color(0x5c8c6e) }, uCount: { value: 0 } },
+          vertexShader: `
+      uniform float uTime,uCount;
+      varying float vAlpha;
+      void main(){
+        float idx=float(gl_VertexID);
+        float active=step(idx,uCount);
+        float tw=sin(uTime*3.+position.x*.3+position.y*.2+idx*.7)*.5+.5;
+        vAlpha=tw*active;
+        vec4 mv=modelViewMatrix*vec4(position,1.);
+        gl_PointSize=rnd=tw*(280./-mv.z)*active;
+        gl_PointSize=(2.+tw*4.)*(280./-mv.z)*active;
+        gl_Position=projectionMatrix*mv;
+      }`,
+          fragmentShader: `
+      uniform vec3 uColor;varying float vAlpha;
+      void main(){
+        float d=length(gl_PointCoord-.5)*2.;
+        float core=smoothstep(1.,.1,d);
+        float glow=smoothstep(1.,.4,d)*.4;
+        gl_FragColor=vec4(uColor,(core+glow)*vAlpha*.8);
+      }`,
+          transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+        });
+        const pts = new THREE.Points(geo, mat);
+        scene.add(pts);
+
+        window.addEventListener('resize', () => { cam.aspect = W() / H(); cam.updateProjectionMatrix(); R.setSize(W(), H()); });
+
+        window._setFireflies = function (emotion, count = 0) {
+          const colors = { joy: 0xf6c90e, love: 0xff85a1, calm: 0x5c8c6e, healing: 0x00c9a7, dark: 0x9b59b6, excited: 0xff6b35 };
+          mat.uniforms.uColor.value.setHex(colors[emotion] || 0x5c8c6e);
+          const target = count || { joy: 120, love: 100, calm: 80, healing: 140, dark: 60, excited: 160, sad: 40 }[emotion] || 60;
+          mat.uniforms.uCount.value = target;
+          canvas.style.opacity = target > 0 ? '1' : '0';
+        };
+
+        let t = 0;
+        (function loop() {
+          requestAnimationFrame(loop);
+          t += .016;
+          mat.uniforms.uTime.value = t;
+          for (let i = 0; i < N; i++) {
+            const d = data[i];
+            const dx = d.tx - d.x, dy = d.ty - d.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 3) { d.tx = rnd(-80, 80); d.ty = rnd(-60, 60); }
+            d.x += dx * d.spd; d.y += dy * d.spd;
+            d.x += Math.sin(t * 1.2 + d.ph) * .15;
+            d.y += Math.cos(t * .9 + d.ph) * .1;
+            pos[i * 3] = d.x; pos[i * 3 + 1] = d.y;
+          }
+          geo.attributes.position.needsUpdate = true;
+          R.render(scene, cam);
+        })();
+      });
+
+      // ════════════════════════════════════════════════════════════════
+      //  SYSTEM 13: WAVEFORM VISUALIZER (ambient audio-feel)
+      // ════════════════════════════════════════════════════════════════
+      waitThree(() => {
+        const canvas = document.getElementById('c_waveform'); if (!canvas) return;
+        const R = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+        R.setPixelRatio(Math.min(devicePixelRatio, 2));
+        R.setSize(W(), H());
+        const scene = new THREE.Scene();
+        const cam = new THREE.OrthographicCamera(-W() / 2, W() / 2, H() / 2, -H() / 2, .1, 10);
+        cam.position.z = 5;
+
+        let waveIntensity = 0, waveColor = new THREE.Color(0x5c8c6e), waveTarget = 0;
+        window._setWave = function (intensity, colorHex) {
+          waveTarget = intensity;
+          if (colorHex) waveColor.setHex(colorHex);
+        };
+
+        const LINES = 3;
+        const lines = [];
+        for (let l = 0; l < LINES; l++) {
+          const pts = [];
+          const segs = 120;
+          for (let i = 0; i <= segs; i++) pts.push(new THREE.Vector3((i / segs - .5) * W(), .0, 0));
+          const geo = new THREE.BufferGeometry().setFromPoints(pts);
+          const mat = new THREE.LineBasicMaterial({ color: waveColor, transparent: true, opacity: .0 });
+          lines.push({ line: new THREE.Line(geo, mat), geo, mat, pts, phase: l * 1.5, amp: 1 + l * .4 });
+          scene.add(lines[l].line);
+        }
+
+        window.addEventListener('resize', () => {
+          cam.left = -W() / 2; cam.right = W() / 2; cam.top = H() / 2; cam.bottom = -H() / 2;
+          cam.updateProjectionMatrix(); R.setSize(W(), H());
+        });
+
+        let t = 0;
+        (function loop() {
+          requestAnimationFrame(loop);
+          t += .016;
+          waveIntensity += (waveTarget - waveIntensity) * .02;
+          lines.forEach((l, idx) => {
+            l.mat.color.copy(waveColor);
+            l.mat.opacity = waveIntensity * .25 * (1 - idx * .2);
+            const baseY = -20 + idx * 18;
+            const pts = l.geo.attributes.position.array;
+            for (let i = 0; i <= 120; i++) {
+              const x = i / 120;
+              const y = baseY
+                + Math.sin(x * Math.PI * 4 + t * 1.5 + l.phase) * 30 * waveIntensity * l.amp
+                + Math.sin(x * Math.PI * 8 + t * 2.2 + l.phase) * 12 * waveIntensity
+                + Math.sin(x * Math.PI * 14 - t * 3 + l.phase) * 5 * waveIntensity;
+              pts[i * 3 + 1] = y;
+            }
+            l.geo.attributes.position.needsUpdate = true;
+          });
+          R.render(scene, cam);
+        })();
+      });
+
+      // ════════════════════════════════════════════════════════════════
+      //  SYSTEM 14: LAVA LAMP BLOBS (CSS-based, always-on ambient)
+      // ════════════════════════════════════════════════════════════════
+      function initLavaLamp() {
+        const colors = [
+          { bg: 'rgba(92,140,110,.15)', w: 300, h: 300 },
+          { bg: 'rgba(139,125,190,.12)', w: 250, h: 250 },
+          { bg: 'rgba(194,107,122,.12)', w: 200, h: 200 },
+          { bg: 'rgba(246,201,14,.08)', w: 180, h: 180 },
+          { bg: 'rgba(74,144,196,.1)', w: 220, h: 220 },
+        ];
+        colors.forEach((c, i) => {
+          const el = document.createElement('div');
+          el.className = 'lava-blob';
+          el.style.cssText = `
+      width:${c.w}px;height:${c.h}px;background:${c.bg};
+      left:${rnd(5, 85)}%;top:${rnd(20, 90)}%;
+      --dur:${rnd(10, 18)}s;--delay:${i * -2.5}s;--op:${parseFloat(c.bg.match(/[\d.]+\)$/)[0].replace(')', '') || .1)};
+    `;
+          document.body.appendChild(el);
+        });
+      }
+      initLavaLamp();
+
+      // ════════════════════════════════════════════════════════════════
+      //  DOM EFFECT FACTORIES (new effects)
+      // ════════════════════════════════════════════════════════════════
+
+      // METEOR SHOWER
+      function spawnMeteors(count = 15) {
+        for (let i = 0; i < count; i++) {
+          setTimeout(() => {
+            const el = document.createElement('div');
+            el.className = 'meteor';
+            const angle = rnd(25, 55);
+            const x = rnd(-10, 110); const y = rnd(-5, 30);
+            const h = rnd(60, 140);
+            el.style.cssText = `left:${x}%;top:${y}%;--angle:${angle}deg;--h:${h}px;
+        --tx:${Math.cos(angle * Math.PI / 180) * 500}px;--ty:${Math.sin(angle * Math.PI / 180) * 500}px;
+        --dur:${rnd(.5, 1.2)}s;--w:${rnd(1, 3)}px;`;
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 1500);
+          }, i * rnd(80, 200));
+        }
+      }
+
+      // INK BLOOM
+      function spawnInkBloom(x, y, color = 'rgba(139,125,190,.5)', size = 80) {
+        const el = document.createElement('div');
+        el.className = 'ink-bloom';
+        el.style.cssText = `left:${x}px;top:${y}px;width:${size}px;height:${size}px;background:${color};--dur:${rnd(2, 3.5)}s;`;
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 4000);
+      }
+
+      // VORTEX RINGS
+      function spawnVortex(x, y, color = 'rgba(139,125,190,.7)', count = 6) {
+        for (let i = 0; i < count; i++) {
+          setTimeout(() => {
+            const el = document.createElement('div');
+            el.className = 'vortex-ring';
+            const sz = 20 + i * 15;
+            el.style.cssText = `left:${x}px;top:${y}px;width:${sz}px;height:${sz}px;border-color:${color};--dur:${1.2 + i * .2}s;`;
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 2500);
+          }, i * 80);
+        }
+      }
+
+      // FIRE PARTICLES
+      function spawnFire(x, y, count = 20) {
+        const fireColors = ['#ff4500', '#ff6b35', '#ffa500', '#ff0000', '#ffdd00'];
+        for (let i = 0; i < count; i++) {
+          setTimeout(() => {
+            const el = document.createElement('div');
+            el.className = 'fire-particle';
+            const sz = rnd(8, 24);
+            el.style.cssText = `left:${x}px;top:${y}px;width:${sz}px;height:${sz}px;
+        background:radial-gradient(circle,${choice(fireColors)},rgba(255,100,0,.3));
+        --tx:${rnd(-80, 80)}px;--ty:${rnd(-160, -40)}px;--dur:${rnd(.6, 1.4)}s;`;
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 1500);
+          }, i * 30);
+        }
+      }
+
+      // ELECTRIC ARCS (SVG-based)
+      function spawnElectricArc(x, y) {
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('viewBox', '0 0 200 200');
+        svg.style.cssText = `position:fixed;left:${x - 100}px;top:${y - 100}px;width:200px;height:200px;pointer-events:none;z-index:5;`;
+        svg.classList.add('electric-arc');
+        svg.style.setProperty('--dur', '.7s');
+
+        // Generate jagged lightning paths
+        for (let i = 0; i < 4; i++) {
+          const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          let d = 'M100,100';
+          let cx = 100, cy = 100;
+          const angle = rnd(0, Math.PI * 2);
+          const steps = rndInt(4, 8);
+          for (let s = 0; s < steps; s++) {
+            cx += Math.cos(angle + rnd(-.8, .8)) * rnd(10, 30);
+            cy += Math.sin(angle + rnd(-.8, .8)) * rnd(10, 30);
+            d += ` L${cx.toFixed(1)},${cy.toFixed(1)}`;
+          }
+          path.setAttribute('d', d);
+          path.setAttribute('stroke', choice(['#fff', '#a78bfa', '#60a5fa', '#34d399']));
+          path.setAttribute('stroke-width', rnd(.5, 2).toFixed(1));
+          path.setAttribute('fill', 'none');
+          path.setAttribute('opacity', rnd(.4, 1).toFixed(2));
+          svg.appendChild(path);
+        }
+
+        document.body.appendChild(svg);
+        setTimeout(() => svg.remove(), 800);
+      }
+
+      // BUBBLE FLOATS
+      function spawnBubbles(x, y, count = 12) {
+        const colors = ['rgba(92,140,110,.4)', 'rgba(139,125,190,.4)', 'rgba(255,133,161,.35)', 'rgba(74,144,196,.4)'];
+        for (let i = 0; i < count; i++) {
+          setTimeout(() => {
+            const el = document.createElement('div');
+            el.className = 'bubble-pop';
+            const sz = rnd(20, 60);
+            el.style.cssText = `left:${x + rnd(-60, 60)}px;top:${y}px;width:${sz}px;height:${sz}px;
+        border-color:${choice(colors)};--ty:${rnd(-180, -60)}px;--dur:${rnd(1.2, 2.5)}s;`;
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 3000);
+          }, i * 120 + rnd(0, 200));
+        }
+      }
+
+      // RAINBOW PRISM RAYS
+      function spawnRainbow(x, y) {
+        const spectrum = ['#ff0000', '#ff7700', '#ffff00', '#00ff00', '#0000ff', '#8b00ff', '#ff00ff'];
+        spectrum.forEach((col, i) => {
+          setTimeout(() => {
+            const el = document.createElement('div');
+            el.className = 'prism-ray';
+            const len = rnd(100, 300);
+            el.style.cssText = `left:${x}px;top:${y}px;width:${len}px;background:${col};opacity:.7;
+        --angle:${i * 25 - 60}deg;--dur:${rnd(1, 2)}s;`;
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 2500);
+          }, i * 50);
+        });
+      }
+
+      // SMOKE TENDRILS
+      function spawnSmoke(x, y, count = 8, color = 'rgba(139,125,190,.3)') {
+        for (let i = 0; i < count; i++) {
+          setTimeout(() => {
+            const el = document.createElement('div');
+            el.className = 'smoke';
+            const sz = rnd(40, 80);
+            el.style.cssText = `left:${x + rnd(-30, 30)}px;top:${y}px;width:${sz}px;height:${sz}px;background:${color};
+        --dx:${rnd(-60, 60)}px;--dy:${rnd(-250, -100)}px;--rot:${rnd(-90, 90)}deg;--dur:${rnd(3, 5)}s;`;
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 5500);
+          }, i * 150 + rnd(0, 200));
+        }
+      }
+
+      // QUANTUM FOAM (random dot field)
+      function spawnQuantumFoam(cx, cy, count = 40) {
+        for (let i = 0; i < count; i++) {
+          const el = document.createElement('div');
+          el.className = 'quantum-dot';
+          const x = cx + rnd(-120, 120), y = cy + rnd(-80, 80);
+          const sz = rnd(2, 8);
+          const colors = ['#5c8c6e', '#8b7dbe', '#c26b7a', '#4a90c4', '#f6c90e'];
+          el.style.cssText = `left:${x}px;top:${y}px;width:${sz}px;height:${sz}px;background:${choice(colors)};
+      --dur:${rnd(.2, .6)}s;--delay:${rnd(0, .5)}s;`;
+          document.body.appendChild(el);
+          setTimeout(() => el.remove(), 1200);
+        }
+      }
+
+      // WORMHOLE COLLAPSE
+      function spawnWormhole(x, y, color = 'rgba(139,125,190,.6)') {
+        for (let i = 0; i < 8; i++) {
+          setTimeout(() => {
+            const el = document.createElement('div');
+            el.className = 'wormhole-layer';
+            const sz = 20 + i * 30;
+            el.style.cssText = `left:${x}px;top:${y}px;width:${sz}px;height:${sz}px;border-color:${color};
+        --dur:${1.5 + i * .1}s;filter:blur(${i * .5}px);`;
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 2500);
+          }, i * 40);
+        }
+      }
+
+      // DNA HELIX floaters
+      function spawnDNA(x, y) {
+        const emojis = ['🧬', '⚗️', '🔬', '💊', '🌀'];
+        for (let i = 0; i < 6; i++) {
+          const el = document.createElement('div');
+          el.className = 'dna-strand';
+          const angle = (i / 6) * Math.PI * 2;
+          const r = rnd(40, 100);
+          el.style.cssText = `left:${x}px;top:${y}px;font-size:${rnd(14, 24)}px;
+      --sx:${Math.cos(angle) * 20}px;--sy:${Math.sin(angle) * 20}px;
+      --mx:${Math.cos(angle) * r * .5}px;--my:${Math.sin(angle) * r * .5 - 80}px;
+      --ex:${Math.cos(angle) * r}px;--ey:${Math.sin(angle) * r - 160}px;--dur:${rnd(1.5, 2.5)}s;`;
+          el.textContent = choice(emojis);
+          document.body.appendChild(el);
+          setTimeout(() => el.remove(), 3000);
+        }
+      }
+
+      // SNOW GLOBE
+      let _snowActive = false, _snowEls = [];
+      function startSnow(count = 35) {
+        if (_snowActive) return;
+        _snowActive = true;
+        for (let i = 0; i < count; i++) {
+          const el = document.createElement('div');
+          el.className = 'snow-particle';
+          const sz = rnd(3, 8);
+          el.style.cssText = `left:${rnd(0, 100)}%;width:${sz}px;height:${sz}px;opacity:${rnd(.4, .9)};
+      --dur:${rnd(5, 10)}s;--delay:${rnd(-8, 0)}s;--drift:${rnd(-80, 80)}px;--rot:${rnd(0, 720)}deg;`;
+          document.body.appendChild(el);
+          _snowEls.push(el);
+        }
+      }
+      function stopSnow() {
+        _snowEls.forEach(el => el.remove());
+        _snowEls = [];
+        _snowActive = false;
+      }
+
+      // GLITCH EFFECT
+      let _glitchTimer = null;
+      function triggerGlitch(duration = 500) {
+        const el = document.getElementById('c_glitch');
+        if (!el) return;
+        el.style.display = 'block';
+        el.innerHTML = '';
+
+        // Color channel split overlay
+        const overlay = document.createElement('div');
+        overlay.style.cssText = `position:absolute;inset:0;mix-blend-mode:screen;
+    background:linear-gradient(180deg,rgba(255,0,0,.04) 0%,transparent 50%,rgba(0,0,255,.04) 100%);
+    animation:glitchText .1s steps(1) infinite;`;
+        el.appendChild(overlay);
+
+        // Horizontal scan bars
+        for (let i = 0; i < 6; i++) {
+          const bar = document.createElement('div');
+          const top = rnd(0, 90);
+          const h = rnd(2, 8);
+          bar.style.cssText = `position:absolute;left:0;top:${top}%;width:100%;height:${h}px;
+      background:rgba(255,255,255,.06);transform:translateX(${rnd(-20, 20)}px);
+      animation:glitchText .15s steps(1) infinite ${rnd(0, .1)}s;`;
+          el.appendChild(bar);
+        }
+
+        if (_glitchTimer) clearTimeout(_glitchTimer);
+        _glitchTimer = setTimeout(() => { el.style.display = 'none'; el.innerHTML = ''; }, duration);
+      }
+
+      // HOLOGRAPHIC HUD OVERLAY
+      let _hudVisible = false;
+      function showHUD(duration = 3000) {
+        if (_hudVisible) return;
+        _hudVisible = true;
+        const hud = document.getElementById('c_hud');
+        if (!hud) return;
+        hud.innerHTML = '';
+        hud.style.opacity = '1';
+
+        const cx = W() * .5, cy = H() * .5;
+
+        // Corner brackets
+        const corners = [
+          { l: '12px', t: '12px', bw: 'top left' },
+          { r: '12px', t: '12px', bw: 'top right' },
+          { l: '12px', b: '12px', bw: 'bottom left' },
+          { r: '12px', b: '12px', bw: 'bottom right' },
+        ];
+        corners.forEach((c, i) => {
+          const el = document.createElement('div');
+          el.className = 'hud-corner';
+          const bw = {
+            'top left': '2px 0 0 2px',
+            'top right': '2px 2px 0 0',
+            'bottom left': '0 0 2px 2px',
+            'bottom right': '0 2px 2px 0',
+          }[c.bw];
+          const bst = {
+            'top left': 'solid solid none none',
+            'top right': 'solid none none solid',
+            'bottom left': 'none solid solid none',
+            'bottom right': 'none none solid solid',
+          };
+          el.style.cssText = `${c.l ? 'left:' + c.l : 'right:' + c.r};${c.t ? 'top:' + c.t : 'bottom:' + c.b};
+      border-width:${bw};border-radius:${c.bw.includes('top') ? '4px 0' : '0 0 4px 0'};`;
+          hud.appendChild(el);
+        });
+
+        // Scanning rings around center
+        [[80, 'rgba(92,140,110,.2)', 8], [140, 'rgba(139,125,190,.15)', 12], [200, 'rgba(194,107,122,.1)', 20]].forEach(([r, col, spd]) => {
+          const ring = document.createElement('div');
+          ring.className = 'hud-ring';
+          ring.style.cssText = `left:${cx}px;top:${cy}px;width:${r * 2}px;height:${r * 2}px;
+      border-color:${col};animation-duration:${spd}s;`;
+          hud.appendChild(ring);
+        });
+
+        // Scan lines
+        for (let i = 0; i < 3; i++) {
+          const line = document.createElement('div');
+          line.className = 'hud-line';
+          line.style.cssText = `left:5%;top:${20 + i * 30}%;width:90%;animation-delay:${i * .4}s;`;
+          hud.appendChild(line);
+        }
+
+        // Data dots
+        for (let i = 0; i < 8; i++) {
+          const dot = document.createElement('div');
+          dot.className = 'hud-dot';
+          const sz = rnd(4, 8);
+          const colors = ['rgba(92,140,110,.8)', 'rgba(139,125,190,.8)', 'rgba(246,201,14,.8)'];
+          dot.style.cssText = `left:${rnd(10, 90)}%;top:${rnd(10, 90)}%;width:${sz}px;height:${sz}px;
+      background:${choice(colors)};animation-delay:${rnd(0, .8)}s;`;
+          hud.appendChild(dot);
+        }
+
+        setTimeout(() => {
+          hud.style.opacity = '0';
+          setTimeout(() => { hud.innerHTML = ''; _hudVisible = false; }, 600);
+        }, duration);
+      }
+
+      // ════════════════════════════════════════════════════════════════
+      //  SYSTEM 20: COMPREHENSIVE EMOTION → EFFECT ROUTER
+      //  (hooks into the existing setCompanionEmotion chain)
+      // ════════════════════════════════════════════════════════════════
+      const EXTRA_EMOTION_FX = {
+        joy: (cx, cy) => {
+          spawnMeteors(10);
+          spawnRainbow(cx, cy);
+          spawnBubbles(cx, cy, 10);
+          window._setFireflies?.('joy', 100);
+          window._galaxyEmotion?.('excited');
+          window._setWave?.(1, 0xf6c90e);
+          showHUD(2000);
+        },
+        love: (cx, cy) => {
+          spawnSmoke(cx, cy, 6, 'rgba(255,133,161,.25)');
+          spawnBubbles(cx, cy, 15);
+          spawnInkBloom(cx, cy, 'rgba(255,133,161,.35)', 120);
+          window._setFireflies?.('love', 80);
+          window._setWave?.(0.8, 0xff85a1);
+        },
+        sad: (cx, cy) => {
+          spawnSmoke(cx, cy, 10, 'rgba(74,144,196,.2)');
+          spawnBubbles(cx, cy, 8);
+          window._setFireflies?.('sad', 30);
+          window._setWave?.(0.5, 0x4a90c4);
+          startSnow(20);
+          setTimeout(() => stopSnow(), 8000);
+        },
+        worried: (cx, cy) => {
+          spawnVortex(cx, cy, 'rgba(155,89,182,.6)');
+          spawnQuantumFoam(cx, cy, 30);
+          window._setWave?.(0.6, 0x9b59b6);
+          window._setFireflies?.('dark', 50);
+        },
+        dark: (cx, cy) => {
+          spawnWormhole(cx, cy, 'rgba(44,20,84,.7)');
+          spawnSmoke(cx, cy, 12, 'rgba(44,20,84,.3)');
+          spawnVortex(cx, cy, 'rgba(80,0,120,.5)', 4);
+          triggerGlitch(300);
+          window._setFireflies?.('dark', 40);
+          window._galaxyEmotion?.('dark');
+          window._setWave?.(0.7, 0x2c1654);
+        },
+        calm: (cx, cy) => {
+          spawnBubbles(cx, cy, 6);
+          spawnSmoke(cx, cy, 4, 'rgba(92,140,110,.15)');
+          window._setFireflies?.('calm', 70);
+          window._setWave?.(0.4, 0x5c8c6e);
+        },
+        excited: (cx, cy) => {
+          spawnMeteors(18);
+          spawnFire(cx, cy, 18);
+          spawnElectricArc(cx, cy);
+          spawnRainbow(cx, cy);
+          spawnQuantumFoam(cx, cy, 50);
+          window._setFireflies?.('excited', 150);
+          window._galaxyEmotion?.('excited');
+          window._setWave?.(1.2, 0xff6b35);
+          showHUD(3000);
+          setTimeout(() => spawnElectricArc(cx + rnd(-100, 100), cy + rnd(-80, 80)), 400);
+        },
+        healing: (cx, cy) => {
+          spawnDNA(cx, cy);
+          spawnBubbles(cx, cy, 12);
+          spawnInkBloom(cx, cy, 'rgba(0,201,167,.3)', 100);
+          window._setFireflies?.('healing', 120);
+          window._galaxyEmotion?.('healing');
+          window._setWave?.(0.9, 0x00c9a7);
+          showHUD(2500);
+        },
+        insight: (cx, cy) => {
+          spawnElectricArc(cx, cy);
+          spawnVortex(cx, cy, 'rgba(246,201,14,.6)');
+          spawnQuantumFoam(cx, cy, 40);
+          triggerGlitch(200);
+          window._setWave?.(1, 0xf6c90e);
+          setTimeout(() => spawnElectricArc(cx + rnd(-80, 80), cy + rnd(-60, 60)), 300);
+        },
+      };
+
+      // Hook into existing setCompanionEmotion
+      setTimeout(() => {
+        const prev = typeof setCompanionEmotion === 'function' ? setCompanionEmotion : null;
+        if (!prev) return;
+        // Only wrap once
+        if (setCompanionEmotion._xWrapped) return;
+        const wrapped = function (key) {
+          prev.call(this, key);
+          const cx = W() * .5, cy = H() * .65;
+          const fx = EXTRA_EMOTION_FX[key];
+          if (fx) setTimeout(() => { try { fx(cx, cy); } catch (e) { } }, 400);
+        };
+        wrapped._xWrapped = true;
+        setCompanionEmotion = wrapped;
+
+        // Also hook affectionBurst for extra spark
+        const prevAB = typeof affectionBurst === 'function' ? affectionBurst : null;
+        if (prevAB && !affectionBurst._xWrapped) {
+          const wrappedAB = function (emojis) {
+            prevAB.call(this, emojis);
+            setTimeout(() => {
+              spawnBubbles(W() * .5, H() * .7, 8);
+              spawnSmoke(W() * .5, H() * .7, 4, 'rgba(255,133,161,.2)');
+              spawnInkBloom(W() * .5, H() * .7, 'rgba(139,125,190,.3)', 80);
+              window._setWave?.(0.8, 0x8b7dbe);
+              setTimeout(() => window._setWave?.(0, null), 3000);
+            }, 200);
+          };
+          wrappedAB._xWrapped = true;
+          affectionBurst = wrappedAB;
+        }
+      }, 3000);
+
+      // ── KEYWORD-TRIGGERED EFFECTS in addMsg ──
+      setTimeout(() => {
+        const prevAM = typeof addMsg === 'function' ? addMsg : null;
+        if (!prevAM || addMsg._xkmWrapped) return;
+        const wrapped = function (role, text, ...a) {
+          const r = prevAM.call(this, role, text, ...a);
+          if (role === 'user' && typeof text === 'string') {
+            const low = text.toLowerCase();
+            const cx = W() * .5, cy = H() * .7;
+            if (/(fire|burn|passion|heat|anger|rage)/.test(low)) spawnFire(cx, cy, 16);
+            if (/(electric|shock|lightning|spark|energy)/.test(low)) spawnElectricArc(cx, cy);
+            if (/(galaxy|stars|space|universe|cosmos)/.test(low)) { spawnMeteors(12); window._galaxyEmotion?.('calm'); }
+            if (/(snow|winter|cold|freeze|ice)/.test(low)) { startSnow(30); setTimeout(stopSnow, 10000); }
+            if (/(rainbow|colorful|color|bright|prism)/.test(low)) spawnRainbow(cx, cy);
+            if (/(smoke|fog|mist|haze|blur)/.test(low)) spawnSmoke(cx, cy, 8, 'rgba(139,125,190,.25)');
+            if (/(bubble|float|drift|light)/.test(low)) spawnBubbles(cx, cy, 10);
+            if (/(dna|heal|grow|transform|change|evolve)/.test(low)) spawnDNA(cx, cy);
+            if (/(glitch|error|broken|crash|bug)/.test(low)) triggerGlitch(600);
+            if (/(portal|vortex|spiral|wormhole|tunnel)/.test(low)) spawnWormhole(cx, cy, 'rgba(139,125,190,.7)');
+            if (/(quantum|atom|science|discovery|wow|incredible)/.test(low)) spawnQuantumFoam(cx, cy, 50);
+            if (/(hud|system|analyze|scan|data|matrix)/.test(low)) showHUD(3000);
+          }
+          return r;
+        };
+        wrapped._xkmWrapped = true;
+        addMsg = wrapped;
+      }, 4000);
+
+      // ── AMBIENT METEOR SHOWER every 2 minutes ──
+      setInterval(() => spawnMeteors(6), 120000);
+
+      // ── INITIAL BOOT AMBIENCE ──
+      setTimeout(() => {
+        spawnMeteors(8);
+        window._setFireflies?.('calm', 60);
+        window._setWave?.(0.35, 0x5c8c6e);
+        setTimeout(() => window._setWave?.(0, null), 8000);
+        showHUD(4000);
+      }, 3000);
+
+      console.log('🚀 CAAS Expansion Pack v7: 20 new systems online — Total: 30 animation systems!');
+    })(); // end CAAS_X
+  </script>
+
 </body>
 
 </html>
