@@ -1,0 +1,2157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Companion – Mental Wellness Chat</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Sora:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --sage: #5c8c6e;
+      --sage-mid: #7aaa8a;
+      --sage-light: #e6f0ea;
+      --sage-dark: #3a6148;
+      --warm: #c07a50;
+      --warm-light: #f5e8dc;
+      --lavender: #8b7dbe;
+      --lavender-light: #eae6f5;
+      --rose: #c26b7a;
+      --rose-light: #f5e0e4;
+      --text: #1e1e1c;
+      --text-muted: #5a5a57;
+      --text-hint: #9a9a96;
+      --bg: #f7f5f2;
+      --surface: #ffffff;
+      --surface2: #f0ede8;
+      --border: rgba(0, 0, 0, 0.09);
+      --shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+      --radius: 20px;
+      --radius-sm: 12px;
+      --radius-xs: 8px;
+    }
+
+    [data-theme="dark"] {
+      --text: #ede9e3;
+      --text-muted: #a09c96;
+      --text-hint: #6a6763;
+      --bg: #16151400;
+      --surface: #1e1d1b;
+      --surface2: #262420;
+      --border: rgba(255, 255, 255, 0.08);
+      --shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+      --sage-light: #1a2b20;
+      --warm-light: #261a12;
+      --lavender-light: #1a1726;
+      --rose-light: #261418;
+    }
+
+    html,
+    body {
+      height: 100%;
+      background: var(--bg);
+    }
+
+    body {
+      font-family: 'Sora', sans-serif;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      height: 100dvh;
+      overflow: hidden;
+      transition: background 0.4s, color 0.4s;
+    }
+
+    /* DARK BG PATTERN */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 40% at 20% 10%, rgba(92, 140, 110, 0.08) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 60% at 80% 80%, rgba(139, 125, 190, 0.07) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .screen {
+      display: none;
+      flex-direction: column;
+      height: 100dvh;
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+    }
+
+    .screen.active {
+      display: flex;
+    }
+
+    /* ══════════════════════════════
+   SETUP SCREEN
+══════════════════════════════ */
+    #setup {
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem 1rem;
+      overflow-y: auto;
+    }
+
+    .setup-card {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 28px;
+      padding: 2.5rem 2rem;
+      width: 100%;
+      max-width: 500px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .setup-card::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(92, 140, 110, 0.12), transparent 70%);
+      pointer-events: none;
+    }
+
+    .setup-header {
+      text-align: center;
+    }
+
+    .setup-orb {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--sage), var(--lavender));
+      margin: 0 auto 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      box-shadow: 0 8px 32px rgba(92, 140, 110, 0.3);
+      animation: orbPulse 4s ease-in-out infinite;
+    }
+
+    @keyframes orbPulse {
+
+      0%,
+      100% {
+        box-shadow: 0 8px 32px rgba(92, 140, 110, 0.3);
+        transform: scale(1);
+      }
+
+      50% {
+        box-shadow: 0 12px 40px rgba(92, 140, 110, 0.45);
+        transform: scale(1.04);
+      }
+    }
+
+    .setup-header h1 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 28px;
+      font-weight: 400;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+
+    .setup-header p {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .field-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .provider-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+
+    .ptab {
+      padding: 10px 4px;
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--surface2);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-align: center;
+      transition: all 0.18s;
+      font-family: 'Sora', sans-serif;
+    }
+
+    .ptab:hover {
+      border-color: var(--sage);
+      color: var(--sage-dark);
+    }
+
+    .ptab.active {
+      border-color: var(--sage);
+      background: var(--sage-light);
+      color: var(--sage-dark);
+    }
+
+    .ptab .pname {
+      font-size: 10px;
+      display: block;
+      margin-top: 3px;
+      opacity: 0.8;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px 16px;
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--surface2);
+      color: var(--text);
+      font-size: 14px;
+      font-family: 'Sora', sans-serif;
+      outline: none;
+      transition: border-color 0.18s, box-shadow 0.18s;
+    }
+
+    input:focus {
+      border-color: var(--sage);
+      box-shadow: 0 0 0 3px rgba(92, 140, 110, 0.12);
+    }
+
+    .key-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .key-row input {
+      flex: 1;
+    }
+
+    .icon-btn {
+      padding: 11px 14px;
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--surface2);
+      color: var(--text-muted);
+      font-size: 14px;
+      cursor: pointer;
+      font-family: 'Sora', sans-serif;
+      transition: background 0.15s;
+    }
+
+    .icon-btn:hover {
+      background: var(--sage-light);
+    }
+
+    .mood-picker {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .mood-btn {
+      padding: 8px 16px;
+      border: 0.5px solid var(--border);
+      border-radius: 24px;
+      background: var(--surface2);
+      color: var(--text-muted);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.18s;
+      font-family: 'Sora', sans-serif;
+    }
+
+    .mood-btn:hover {
+      border-color: var(--warm);
+      color: var(--warm);
+    }
+
+    .mood-btn.active {
+      background: var(--warm-light);
+      border-color: var(--warm);
+      color: var(--warm);
+      font-weight: 500;
+    }
+
+    /* Persona selector */
+    .persona-row {
+      display: flex;
+      gap: 7px;
+    }
+
+    .persona-chip {
+      flex: 1;
+      padding: 8px 6px;
+      text-align: center;
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--surface2);
+      cursor: pointer;
+      font-size: 11px;
+      color: var(--text-muted);
+      transition: all 0.18s;
+      font-family: 'Sora', sans-serif;
+    }
+
+    .persona-chip:hover {
+      border-color: var(--lavender);
+    }
+
+    .persona-chip.active {
+      background: var(--lavender-light);
+      border-color: var(--lavender);
+      color: var(--lavender);
+    }
+
+    .persona-chip .p-emoji {
+      font-size: 20px;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .start-btn {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, var(--sage), var(--sage-mid));
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 15px;
+      font-weight: 500;
+      font-family: 'Sora', sans-serif;
+      cursor: pointer;
+      transition: all 0.18s;
+      box-shadow: 0 4px 16px rgba(92, 140, 110, 0.35);
+      letter-spacing: 0.01em;
+    }
+
+    .start-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(92, 140, 110, 0.45);
+    }
+
+    .start-btn:active {
+      transform: translateY(0);
+    }
+
+    .setup-note {
+      font-size: 11px;
+      color: var(--text-hint);
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .setup-note a {
+      color: var(--sage);
+    }
+
+    .setup-footer {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .setup-footer .link-hint {
+      font-size: 11px;
+      color: var(--text-hint);
+    }
+
+    .setup-footer a {
+      color: var(--sage);
+      font-size: 11px;
+    }
+
+    /* ══════════════════════════════
+   CHAT SCREEN
+══════════════════════════════ */
+    #chat {
+      background: transparent;
+    }
+
+    .chat-header {
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 0.5px solid var(--border);
+      background: var(--surface);
+      flex-shrink: 0;
+      backdrop-filter: blur(12px);
+    }
+
+    .avatar-orb {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, var(--sage-light), var(--lavender-light));
+      border: 0.5px solid var(--border);
+      transition: all 0.5s;
+    }
+
+    .header-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .header-info .name {
+      font-size: 15px;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .header-info .status {
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .h-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 0.5px solid var(--border);
+      background: var(--surface2);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 15px;
+      transition: all 0.15s;
+      flex-shrink: 0;
+    }
+
+    .h-btn:hover {
+      background: var(--sage-light);
+      color: var(--sage-dark);
+      border-color: var(--sage);
+    }
+
+    .stage-pill {
+      padding: 4px 11px;
+      border-radius: 20px;
+      font-size: 10.5px;
+      font-weight: 600;
+      background: var(--sage-light);
+      color: var(--sage-dark);
+      transition: all 0.5s;
+      white-space: nowrap;
+      border: 0.5px solid rgba(92, 140, 110, 0.25);
+      letter-spacing: 0.02em;
+    }
+
+    /* Wellness bar */
+    .wellness-bar-wrap {
+      flex-shrink: 0;
+      padding: 6px 16px 2px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--surface);
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .wellness-label {
+      font-size: 10px;
+      color: var(--text-hint);
+      white-space: nowrap;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .wellness-track {
+      flex: 1;
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .wellness-fill {
+      height: 100%;
+      width: 10%;
+      background: linear-gradient(90deg, var(--sage), var(--lavender));
+      transition: width 1s cubic-bezier(.4, 0, .2, 1);
+      border-radius: 2px;
+    }
+
+    .wellness-pct {
+      font-size: 10px;
+      color: var(--text-hint);
+      width: 28px;
+      text-align: right;
+    }
+
+    /* Messages */
+    .messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 16px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      scroll-behavior: smooth;
+    }
+
+    .messages::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .messages::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 2px;
+    }
+
+    .msg {
+      display: flex;
+      gap: 9px;
+      align-items: flex-end;
+      max-width: 88%;
+    }
+
+    .msg.user {
+      flex-direction: row-reverse;
+      align-self: flex-end;
+    }
+
+    .msg.ai {
+      align-self: flex-start;
+    }
+
+    .msg-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      background: var(--sage-light);
+      border: 0.5px solid var(--border);
+    }
+
+    .msg-col {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      max-width: 100%;
+    }
+
+    .msg.user .msg-col {
+      align-items: flex-end;
+    }
+
+    .bubble {
+      padding: 11px 15px;
+      border-radius: 18px;
+      font-size: 14px;
+      line-height: 1.7;
+      max-width: 100%;
+      word-break: break-word;
+      animation: msgIn 0.25s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    @keyframes msgIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px) scale(0.97);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .msg.ai .bubble {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-bottom-left-radius: 4px;
+    }
+
+    .msg.user .bubble {
+      background: var(--sage);
+      color: white;
+      border-bottom-right-radius: 4px;
+    }
+
+    .msg-time {
+      font-size: 10px;
+      color: var(--text-hint);
+      padding: 0 4px;
+    }
+
+    .bubble.typing {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+      padding: 14px 18px;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--text-hint);
+      animation: bounce 1.3s infinite;
+    }
+
+    .dot:nth-child(2) {
+      animation-delay: 0.22s;
+    }
+
+    .dot:nth-child(3) {
+      animation-delay: 0.44s;
+    }
+
+    @keyframes bounce {
+
+      0%,
+      60%,
+      100% {
+        transform: translateY(0);
+      }
+
+      30% {
+        transform: translateY(-7px);
+      }
+    }
+
+    .stage-card {
+      padding: 10px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      align-self: center;
+      background: var(--sage-light);
+      color: var(--sage-dark);
+      margin: 2px 0;
+      border: 0.5px solid rgba(92, 140, 110, 0.2);
+      animation: fadeIn 0.4s ease;
+      font-weight: 500;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Chips */
+    .chips {
+      padding: 4px 16px 6px;
+      display: flex;
+      gap: 7px;
+      overflow-x: auto;
+      flex-shrink: 0;
+      scrollbar-width: none;
+    }
+
+    .chips::-webkit-scrollbar {
+      display: none;
+    }
+
+    .chip {
+      padding: 7px 14px;
+      border: 0.5px solid var(--border);
+      border-radius: 20px;
+      background: var(--surface);
+      color: var(--text-muted);
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.18s;
+      font-family: 'Sora', sans-serif;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .chip:hover {
+      border-color: var(--sage);
+      color: var(--sage-dark);
+      background: var(--sage-light);
+    }
+
+    /* Input area */
+    .input-area {
+      padding: 10px 14px 14px;
+      background: var(--surface);
+      border-top: 0.5px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 9px;
+      align-items: flex-end;
+    }
+
+    textarea {
+      flex: 1;
+      padding: 11px 15px;
+      border: 0.5px solid var(--border);
+      border-radius: 22px;
+      background: var(--surface2);
+      color: var(--text);
+      font-size: 14px;
+      font-family: 'Sora', sans-serif;
+      resize: none;
+      min-height: 44px;
+      max-height: 120px;
+      outline: none;
+      line-height: 1.55;
+      transition: border-color 0.18s, box-shadow 0.18s;
+    }
+
+    textarea:focus {
+      border-color: var(--sage);
+      box-shadow: 0 0 0 3px rgba(92, 140, 110, 0.1);
+    }
+
+    textarea::placeholder {
+      color: var(--text-hint);
+    }
+
+    .send-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--sage), var(--sage-mid));
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 18px;
+      flex-shrink: 0;
+      transition: all 0.18s;
+      box-shadow: 0 3px 12px rgba(92, 140, 110, 0.35);
+    }
+
+    .send-btn:hover {
+      transform: scale(1.07);
+    }
+
+    .send-btn:active {
+      transform: scale(0.95);
+    }
+
+    .send-btn:disabled {
+      background: var(--surface2);
+      box-shadow: none;
+      cursor: not-allowed;
+      color: var(--text-hint);
+    }
+
+    .input-toolbar {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .tool-btn {
+      padding: 4px 10px;
+      border: 0.5px solid var(--border);
+      border-radius: 16px;
+      background: transparent;
+      color: var(--text-hint);
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: 'Sora', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .tool-btn:hover {
+      border-color: var(--sage);
+      color: var(--sage-dark);
+      background: var(--sage-light);
+    }
+
+    .tool-btn.active {
+      background: var(--rose-light);
+      border-color: var(--rose);
+      color: var(--rose);
+    }
+
+    .char-count {
+      font-size: 10.5px;
+      color: var(--text-hint);
+      margin-left: auto;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 90px;
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      background: #1e1d1b;
+      color: #f0ede8;
+      padding: 9px 22px;
+      border-radius: 24px;
+      font-size: 13px;
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none;
+      z-index: 999;
+      white-space: nowrap;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .toast.error {
+      background: #c53030;
+    }
+
+    .toast.success {
+      background: var(--sage-dark);
+    }
+
+    /* ══════════════════════════════
+   MODAL OVERLAY
+══════════════════════════════ */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      background: var(--surface);
+      border-radius: 24px;
+      width: 100%;
+      max-width: 420px;
+      padding: 2rem 1.8rem;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      transform: scale(0.95);
+      transition: transform 0.25s;
+      max-height: 90dvh;
+      overflow-y: auto;
+    }
+
+    .modal-overlay.open .modal {
+      transform: scale(1);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 0.5px solid var(--border);
+      background: var(--surface2);
+      cursor: pointer;
+      font-size: 14px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 22px;
+      font-weight: 400;
+      margin-bottom: 6px;
+    }
+
+    .modal p {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+
+    /* Breathing exercise */
+    .breath-circle {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--sage-light), var(--lavender-light));
+      border: 2px solid var(--sage);
+      margin: 0 auto 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--sage-dark);
+      transition: transform 4s ease-in-out, background 4s ease;
+    }
+
+    .breath-circle.inhale {
+      transform: scale(1.5);
+      background: linear-gradient(135deg, rgba(92, 140, 110, 0.2), rgba(139, 125, 190, 0.2));
+    }
+
+    .breath-circle.hold {
+      transform: scale(1.5);
+    }
+
+    .breath-circle.exhale {
+      transform: scale(1);
+    }
+
+    .breath-instruction {
+      text-align: center;
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .breath-count {
+      text-align: center;
+      font-size: 32px;
+      font-family: 'Instrument Serif', serif;
+      color: var(--sage-dark);
+      margin-bottom: 1rem;
+    }
+
+    .breath-start {
+      width: 100%;
+      padding: 13px;
+      background: var(--sage-light);
+      color: var(--sage-dark);
+      border: 0.5px solid var(--sage);
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'Sora', sans-serif;
+      transition: all 0.18s;
+    }
+
+    .breath-start:hover {
+      background: var(--sage);
+      color: white;
+    }
+
+    /* Mood chart */
+    .chart-wrap {
+      width: 100%;
+      height: 100px;
+      margin-bottom: 1rem;
+    }
+
+    .chart-wrap canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    .mood-log-entry {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 0.5px solid var(--border);
+      font-size: 13px;
+    }
+
+    .mood-log-entry:last-child {
+      border-bottom: none;
+    }
+
+    .mood-log-entry .ml-time {
+      color: var(--text-hint);
+      font-size: 11px;
+    }
+
+    /* Crisis modal */
+    .crisis-resources {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .crisis-item {
+      padding: 14px 16px;
+      border-radius: var(--radius-sm);
+      background: var(--surface2);
+      border: 0.5px solid var(--border);
+    }
+
+    .crisis-item .ci-name {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 3px;
+    }
+
+    .crisis-item .ci-detail {
+      font-size: 12.5px;
+      color: var(--text-muted);
+    }
+
+    .crisis-item a {
+      color: var(--sage);
+    }
+
+    /* Journal modal */
+    .journal-entry-area {
+      width: 100%;
+      min-height: 120px;
+      padding: 12px 16px;
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--surface2);
+      color: var(--text);
+      font-size: 14px;
+      font-family: 'Sora', sans-serif;
+      resize: vertical;
+      outline: none;
+      line-height: 1.65;
+      margin-bottom: 10px;
+    }
+
+    .journal-entry-area:focus {
+      border-color: var(--sage);
+    }
+
+    .journal-save {
+      width: 100%;
+      padding: 12px;
+      background: var(--sage);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 500;
+      font-family: 'Sora', sans-serif;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .journal-save:hover {
+      background: var(--sage-dark);
+    }
+
+    .journal-past {
+      margin-top: 1rem;
+    }
+
+    .journal-past h3 {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .jentry {
+      padding: 10px 14px;
+      background: var(--surface2);
+      border-radius: var(--radius-xs);
+      border: 0.5px solid var(--border);
+      margin-bottom: 8px;
+    }
+
+    .jentry .je-date {
+      font-size: 10.5px;
+      color: var(--text-hint);
+      margin-bottom: 5px;
+    }
+
+    .jentry .je-text {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Settings panel */
+    .setting-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .setting-row:last-child {
+      border-bottom: none;
+    }
+
+    .setting-row .sr-label {
+      font-size: 14px;
+    }
+
+    .setting-row .sr-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .toggle {
+      width: 44px;
+      height: 24px;
+      border-radius: 12px;
+      background: var(--border);
+      position: relative;
+      cursor: pointer;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+
+    .toggle.on {
+      background: var(--sage);
+    }
+
+    .toggle::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: white;
+      transition: transform 0.2s;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .toggle.on::after {
+      transform: translateX(20px);
+    }
+
+    .danger-btn {
+      width: 100%;
+      padding: 11px;
+      background: transparent;
+      color: var(--rose);
+      border: 0.5px solid var(--rose);
+      border-radius: var(--radius-sm);
+      font-size: 13.5px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'Sora', sans-serif;
+      transition: all 0.15s;
+      margin-top: 10px;
+    }
+
+    .danger-btn:hover {
+      background: var(--rose-light);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- SETUP SCREEN -->
+  <div id="setup" class="screen active">
+    <div class="setup-card">
+      <div class="setup-header">
+        <div class="setup-orb" id="setupOrb">🌿</div>
+        <h1>Your Companion</h1>
+        <p>A warm, private space to talk, vent, and feel less alone.<br>No judgement. Always here for you.</p>
+      </div>
+
+      <div class="field-group">
+        <span class="field-label">AI Provider</span>
+        <div class="provider-tabs">
+          <div class="ptab active" data-provider="groq">🟢<span class="pname">Groq (free)</span></div>
+          <div class="ptab" data-provider="gemini">🔵<span class="pname">Gemini (free)</span></div>
+          <div class="ptab" data-provider="openai">⚫<span class="pname">OpenAI</span></div>
+          <div class="ptab" data-provider="anthropic">🟠<span class="pname">Claude</span></div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <span class="field-label">API Key <span
+            style="font-weight:400;text-transform:none;letter-spacing:0;font-size:10px">(stays in your browser
+            only)</span></span>
+        <div class="key-row">
+          <input type="password" id="apiKey" placeholder="Paste your API key here…" autocomplete="off" />
+          <button class="icon-btn" onclick="toggleKey()" title="Show/hide key">👁</button>
+        </div>
+        <div style="font-size:11px;color:var(--text-hint);margin-top:4px;line-height:1.8">
+          Groq: <a href="https://console.groq.com" target="_blank" style="color:var(--sage)">console.groq.com</a>
+          &nbsp;·&nbsp;
+          Gemini: <a href="https://aistudio.google.com" target="_blank"
+            style="color:var(--sage)">aistudio.google.com</a> &nbsp;·&nbsp;
+          Claude: <a href="https://console.anthropic.com" target="_blank"
+            style="color:var(--sage)">console.anthropic.com</a>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <span class="field-label">Companion Name</span>
+        <input type="text" id="compName" value="Ara" placeholder="e.g. Ara, Kai, Luna, Nova…" maxlength="20" />
+      </div>
+
+      <div class="field-group">
+        <span class="field-label">Companion Persona</span>
+        <div class="persona-row">
+          <div class="persona-chip active" data-persona="gentle" title="Gentle & nurturing">
+            <span class="p-emoji">🌸</span>Gentle
+          </div>
+          <div class="persona-chip" data-persona="grounded" title="Calm & grounded">
+            <span class="p-emoji">🪨</span>Grounded
+          </div>
+          <div class="persona-chip" data-persona="playful" title="Light & playful">
+            <span class="p-emoji">✨</span>Playful
+          </div>
+          <div class="persona-chip" data-persona="wise" title="Wise & reflective">
+            <span class="p-emoji">🦉</span>Wise
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <span class="field-label">How are you feeling right now?</span>
+        <div class="mood-picker">
+          <div class="mood-btn active" data-mood="low">😔 Low</div>
+          <div class="mood-btn" data-mood="anxious">😰 Anxious</div>
+          <div class="mood-btn" data-mood="lonely">🌙 Lonely</div>
+          <div class="mood-btn" data-mood="angry">😤 Frustrated</div>
+          <div class="mood-btn" data-mood="okay">🙂 Okay</div>
+          <div class="mood-btn" data-mood="unsure">🤷 Unsure</div>
+        </div>
+      </div>
+
+      <button class="start-btn" onclick="startChat()">Begin conversation →</button>
+
+      <p class="setup-note">Your conversations are not stored outside this browser tab. &nbsp;<a href="#"
+          onclick="showCrisis(); return false;">Need immediate help?</a></p>
+    </div>
+  </div>
+
+  <!-- CHAT SCREEN -->
+  <div id="chat" class="screen">
+    <div class="chat-header">
+      <div class="avatar-orb" id="avatarOrb">🌿</div>
+      <div class="header-info">
+        <div class="name" id="headerName">Ara</div>
+        <div class="status" id="headerStatus">Here with you 💙</div>
+      </div>
+      <div class="stage-pill" id="stagePill">Getting to know you</div>
+      <div class="header-actions">
+        <button class="h-btn" onclick="openModal('breathModal')" title="Breathing exercise">🫁</button>
+        <button class="h-btn" onclick="openModal('journalModal')" title="Journal">📔</button>
+        <button class="h-btn" onclick="openModal('moodModal')" title="Mood tracker">📈</button>
+        <button class="h-btn" onclick="openModal('settingsModal')" title="Settings">⚙</button>
+      </div>
+    </div>
+
+    <div class="wellness-bar-wrap">
+      <span class="wellness-label">Wellness</span>
+      <div class="wellness-track">
+        <div class="wellness-fill" id="moodFill"></div>
+      </div>
+      <span class="wellness-pct" id="wellnessPct">10%</span>
+    </div>
+
+    <div class="messages" id="messages"></div>
+    <div class="chips" id="chips"></div>
+
+    <div class="input-area">
+      <div class="input-toolbar">
+        <button class="tool-btn" id="voiceBtn" onclick="toggleVoice()" title="Voice input">🎙 Voice</button>
+        <button class="tool-btn" onclick="showCrisis()" title="Crisis resources">🆘 Help</button>
+        <button class="tool-btn" onclick="exportChat()" title="Export chat">⬇ Export</button>
+        <span class="char-count" id="charCount"></span>
+      </div>
+      <div class="input-row">
+        <textarea id="msgInput" placeholder="Type how you're feeling…" rows="1" onkeydown="handleKey(event)"
+          oninput="autoResize(this); updateCharCount(this)"></textarea>
+        <button class="send-btn" id="sendBtn" onclick="sendMessage()">↑</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <!-- ══════ MODALS ══════ -->
+
+  <!-- Breathing Modal -->
+  <div class="modal-overlay" id="breathModal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('breathModal')">✕</button>
+      <h2>Breathing Space 🫁</h2>
+      <p>A simple box-breathing exercise to help calm your nervous system.</p>
+      <div class="breath-circle" id="breathCircle">Ready</div>
+      <div class="breath-instruction" id="breathInstruction">Press start when you're ready</div>
+      <div class="breath-count" id="breathCountDisplay"></div>
+      <button class="breath-start" id="breathStartBtn" onclick="startBreathing()">Start Exercise</button>
+    </div>
+  </div>
+
+  <!-- Mood Tracker Modal -->
+  <div class="modal-overlay" id="moodModal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('moodModal')">✕</button>
+      <h2>Mood Over Time 📈</h2>
+      <p>Your wellness journey this session, tracked as the conversation unfolds.</p>
+      <div class="chart-wrap">
+        <canvas id="moodChart"></canvas>
+      </div>
+      <div id="moodLog"></div>
+    </div>
+  </div>
+
+  <!-- Journal Modal -->
+  <div class="modal-overlay" id="journalModal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('journalModal')">✕</button>
+      <h2>Your Journal 📔</h2>
+      <p>A private space to write down your thoughts. Saved locally in this browser.</p>
+      <textarea class="journal-entry-area" id="journalInput" placeholder="What's on your mind today?…"></textarea>
+      <button class="journal-save" onclick="saveJournalEntry()">Save entry</button>
+      <div class="journal-past" id="journalPast"></div>
+    </div>
+  </div>
+
+  <!-- Crisis Modal -->
+  <div class="modal-overlay" id="crisisModal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('crisisModal')">✕</button>
+      <h2>You're Not Alone 💙</h2>
+      <p>If you're going through a crisis or need immediate support, please reach out to one of these free, confidential
+        resources.</p>
+      <div class="crisis-resources">
+        <div class="crisis-item">
+          <div class="ci-name">iCall (India)</div>
+          <div class="ci-detail">📞 9152987821 &nbsp;·&nbsp; Mon–Sat, 8am–10pm</div>
+        </div>
+        <div class="crisis-item">
+          <div class="ci-name">Vandrevala Foundation (India)</div>
+          <div class="ci-detail">📞 1860-2662-345 &nbsp;·&nbsp; 24/7 free helpline</div>
+        </div>
+        <div class="crisis-item">
+          <div class="ci-name">Crisis Text Line (US/UK/CA)</div>
+          <div class="ci-detail">💬 Text HOME to 741741 (US) / 85258 (UK)</div>
+        </div>
+        <div class="crisis-item">
+          <div class="ci-name">International Association for Suicide Prevention</div>
+          <div class="ci-detail"><a href="https://www.iasp.info/resources/Crisis_Centres/" target="_blank">Find your
+              country's helpline →</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="modal-overlay" id="settingsModal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('settingsModal')">✕</button>
+      <h2>Settings ⚙</h2>
+      <div class="setting-row">
+        <div>
+          <div class="sr-label">Dark mode</div>
+          <div class="sr-sub">Switch between light and dark themes</div>
+        </div>
+        <div class="toggle" id="darkToggle" onclick="toggleDark()"></div>
+      </div>
+      <div class="setting-row">
+        <div>
+          <div class="sr-label">Sound effects</div>
+          <div class="sr-sub">Gentle chime on new message</div>
+        </div>
+        <div class="toggle" id="soundToggle" onclick="toggleSetting('sound')"></div>
+      </div>
+      <div class="setting-row">
+        <div>
+          <div class="sr-label">Show timestamps</div>
+          <div class="sr-sub">Show time on each message</div>
+        </div>
+        <div class="toggle on" id="timestampToggle" onclick="toggleSetting('timestamps')"></div>
+      </div>
+      <div class="setting-row">
+        <div>
+          <div class="sr-label">Save session on close</div>
+          <div class="sr-sub">Restore last session on next visit</div>
+        </div>
+        <div class="toggle" id="saveToggle" onclick="toggleSetting('save')"></div>
+      </div>
+      <button class="danger-btn" onclick="clearSession()">Clear all session data</button>
+      <button class="danger-btn" style="margin-top:6px;color:var(--text-muted);border-color:var(--border)"
+        onclick="goBack()">← Back to setup</button>
+    </div>
+  </div>
+
+  <script>
+    // ══════════════════════════════
+    // PROVIDERS
+    // ══════════════════════════════
+    const PROVIDERS = {
+      groq: {
+        url: 'https://api.groq.com/openai/v1/chat/completions',
+        model: 'llama3-70b-8192',
+        headers: k => ({ 'Authorization': `Bearer ${k}`, 'Content-Type': 'application/json' }),
+        format: b => b,
+        parse: d => d.choices?.[0]?.message?.content
+      },
+      gemini: {
+        url: 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
+        model: 'gemini-2.0-flash',
+        headers: k => ({ 'Authorization': `Bearer ${k}`, 'Content-Type': 'application/json' }),
+        format: b => b,
+        parse: d => d.choices?.[0]?.message?.content
+      },
+      openai: {
+        url: 'https://api.openai.com/v1/chat/completions',
+        model: 'gpt-4o-mini',
+        headers: k => ({ 'Authorization': `Bearer ${k}`, 'Content-Type': 'application/json' }),
+        format: b => b,
+        parse: d => d.choices?.[0]?.message?.content
+      },
+      anthropic: {
+        url: 'https://api.anthropic.com/v1/messages',
+        model: 'claude-haiku-4-5-20251001',
+        headers: k => ({ 'x-api-key': k, 'anthropic-version': '2023-06-01', 'Content-Type': 'application/json', 'anthropic-dangerous-direct-browser-access': 'true' }),
+        format: b => {
+          // Anthropic uses system param separately
+          const msgs = b.messages.filter(m => m.role !== 'system');
+          const sys = b.messages.find(m => m.role === 'system');
+          return { model: b.model, max_tokens: b.max_tokens, system: sys?.content, messages: msgs };
+        },
+        parse: d => d.content?.[0]?.text
+      }
+    };
+
+    // ══════════════════════════════
+    // STAGES & CONTENT
+    // ══════════════════════════════
+    const STAGES = [
+      { name: 'Getting to know you', emoji: '🌱', threshold: 0 },
+      { name: 'Opening up', emoji: '🌿', threshold: 20 },
+      { name: 'Feeling heard', emoji: '🌸', threshold: 40 },
+      { name: 'Finding light', emoji: '☀️', threshold: 65 },
+      { name: 'Feeling better', emoji: '🌈', threshold: 85 }
+    ];
+
+    const CHIPS = [
+      ["I've been feeling really low lately", "I just need someone to talk to", "I don't know where to start"],
+      ["It feels like no one understands", "I'm exhausted all the time", "I keep overthinking everything"],
+      ["Can you help me calm down?", "What's a small thing I can do right now?", "I want to feel better"],
+      ["Tell me something comforting", "Help me find something to look forward to", "I think I'm doing a bit better"],
+      ["What helped me most today?", "I want to keep this feeling", "Thank you for being here"]
+    ];
+
+    const STATUSES = [
+      'Here with you 💙', 'Listening closely 🌿',
+      'Feeling the shift 🌸', 'Finding your light ☀️', 'Walking with you 🌈'
+    ];
+
+    const OPENINGS = {
+      low: n => `Hey, I'm really glad you're here. 💙 I can tell things have been heavy — you don't have to have the right words. What's been weighing on you?`,
+      anxious: n => `Hi, I'm ${n} — and I'm here, fully. 🌿 Anxiety can feel like your mind just won't slow down. Take a breath with me. What's been making you anxious lately?`,
+      lonely: n => `I'm so glad you reached out. 🌙 Loneliness is one of the hardest feelings — but you're not alone right now, I promise. What's been making you feel disconnected?`,
+      angry: n => `Hey. 🔥 It sounds like something's really gotten under your skin, and that's completely valid. I'm ${n} — what happened?`,
+      okay: n => `Hey! I'm ${n}. Even when things feel "okay," life can still feel like a lot. 🌸 I'm here to listen — what's on your mind?`,
+      unsure: n => `That's completely okay — sometimes we don't even know how we feel, and that's a valid place to start. 🤗 I'm ${n}, and I'm just here to be with you. Want to just talk?`
+    };
+
+    const PERSONA_TRAITS = {
+      gentle: 'You are soft, nurturing, and maternal. You use gentle language, warmth, and validation above all.',
+      grounded: 'You are calm, steady, and grounding. You speak with quiet confidence and help anchor the person to the present moment.',
+      playful: 'You are light-hearted and warm, with gentle humor that creates safety without trivializing feelings.',
+      wise: 'You are reflective and thoughtful, offering gentle insights and open questions that help the person find their own clarity.'
+    };
+
+    // ══════════════════════════════
+    // STATE
+    // ══════════════════════════════
+    let S = {
+      provider: 'groq', apiKey: '', compName: 'Ara',
+      mood: 'low', persona: 'gentle', stage: 0, wellness: 10,
+      history: [], loading: false,
+      moodHistory: [],       // [{time, value, label}]
+      settings: { sound: false, timestamps: true, save: false, dark: false }
+    };
+
+    // Restore dark mode preference
+    if (localStorage.getItem('companion_dark') === '1') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      S.settings.dark = true;
+    }
+
+    // ══════════════════════════════
+    // SETUP INTERACTIONS
+    // ══════════════════════════════
+    document.querySelectorAll('.ptab').forEach(el => {
+      el.onclick = () => {
+        document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
+        el.classList.add('active');
+        S.provider = el.dataset.provider;
+        // Suggest free options
+        const hints = { groq: '🟢 Free tier available', gemini: '🔵 Free tier available', openai: '⚫ Pay-as-you-go', anthropic: '🟠 Pay-as-you-go' };
+        if (hints[S.provider]) showToast(hints[S.provider], 'normal', 2000);
+      };
+    });
+
+    document.querySelectorAll('.mood-btn').forEach(el => {
+      el.onclick = () => {
+        document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
+        el.classList.add('active');
+        S.mood = el.dataset.mood;
+        // Update orb emoji
+        const moodEmoji = { low: '😔', anxious: '😰', lonely: '🌙', angry: '😤', okay: '🙂', unsure: '🤷' };
+        document.getElementById('setupOrb').textContent = moodEmoji[S.mood] || '🌿';
+      };
+    });
+
+    document.querySelectorAll('.persona-chip').forEach(el => {
+      el.onclick = () => {
+        document.querySelectorAll('.persona-chip').forEach(c => c.classList.remove('active'));
+        el.classList.add('active');
+        S.persona = el.dataset.persona;
+      };
+    });
+
+    function toggleKey() {
+      const i = document.getElementById('apiKey');
+      i.type = i.type === 'password' ? 'text' : 'password';
+    }
+
+    function goBack() {
+      closeModal('settingsModal');
+      document.getElementById('chat').classList.remove('active');
+      document.getElementById('setup').classList.add('active');
+    }
+
+    // ══════════════════════════════
+    // CHAT START
+    // ══════════════════════════════
+    function startChat() {
+      const key = document.getElementById('apiKey').value.trim();
+      if (!key) { showToast('Please enter your API key first', 'error'); return; }
+      S.apiKey = key;
+      S.compName = (document.getElementById('compName').value.trim() || 'Ara').slice(0, 20);
+      S.history = []; S.stage = 0; S.wellness = 10; S.loading = false; S.moodHistory = [];
+
+      document.getElementById('setup').classList.remove('active');
+      document.getElementById('chat').classList.add('active');
+      document.getElementById('messages').innerHTML = '';
+      document.getElementById('headerName').textContent = S.compName;
+
+      updateStageUI();
+      updateChips();
+
+      const opening = (OPENINGS[S.mood] || OPENINGS.unsure)(S.compName);
+      S.history.push({ role: 'assistant', content: opening });
+      addMsg('ai', opening);
+      logMoodPoint('Session start', S.wellness);
+
+      // Check for saved session
+      if (S.settings.save) tryRestoreSession();
+    }
+
+    // ══════════════════════════════
+    // UI UPDATES
+    // ══════════════════════════════
+    function updateStageUI() {
+      const st = STAGES[S.stage];
+      document.getElementById('stagePill').textContent = st.name;
+      document.getElementById('avatarOrb').textContent = st.emoji;
+      document.getElementById('moodFill').style.width = S.wellness + '%';
+      document.getElementById('wellnessPct').textContent = S.wellness + '%';
+      document.getElementById('headerStatus').textContent = STATUSES[S.stage];
+    }
+
+    function updateChips() {
+      const arr = CHIPS[Math.min(S.stage, CHIPS.length - 1)];
+      document.getElementById('chips').innerHTML =
+        arr.map(c => `<div class="chip" onclick="useChip(this.textContent)">${c}</div>`).join('');
+    }
+
+    function useChip(text) {
+      document.getElementById('msgInput').value = text;
+      autoResize(document.getElementById('msgInput'));
+      sendMessage();
+    }
+
+    function handleKey(e) {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+    }
+
+    function autoResize(el) {
+      el.style.height = 'auto';
+      el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+    }
+
+    function updateCharCount(el) {
+      const len = el.value.length;
+      const cc = document.getElementById('charCount');
+      cc.textContent = len > 200 ? len + ' chars' : '';
+    }
+
+    function addMsg(role, text) {
+      const msgs = document.getElementById('messages');
+      const outer = document.createElement('div');
+      outer.className = `msg ${role}`;
+
+      if (role === 'ai') {
+        const av = document.createElement('div');
+        av.className = 'msg-avatar';
+        av.textContent = STAGES[S.stage].emoji;
+        outer.appendChild(av);
+      }
+
+      const col = document.createElement('div');
+      col.className = 'msg-col';
+
+      const bub = document.createElement('div');
+      bub.className = 'bubble';
+      bub.textContent = text;
+      col.appendChild(bub);
+
+      if (S.settings.timestamps) {
+        const time = document.createElement('div');
+        time.className = 'msg-time';
+        time.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        col.appendChild(time);
+      }
+
+      outer.appendChild(col);
+      msgs.appendChild(outer);
+      msgs.scrollTop = msgs.scrollHeight;
+    }
+
+    function showTyping() {
+      const msgs = document.getElementById('messages');
+      const wrap = document.createElement('div');
+      wrap.className = 'msg ai'; wrap.id = 'typing';
+      const av = document.createElement('div');
+      av.className = 'msg-avatar'; av.textContent = STAGES[S.stage].emoji;
+      wrap.appendChild(av);
+      const col = document.createElement('div'); col.className = 'msg-col';
+      const bub = document.createElement('div');
+      bub.className = 'bubble typing';
+      bub.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
+      col.appendChild(bub);
+      wrap.appendChild(col);
+      msgs.appendChild(wrap);
+      msgs.scrollTop = msgs.scrollHeight;
+    }
+
+    function hideTyping() {
+      const t = document.getElementById('typing');
+      if (t) t.remove();
+    }
+
+    // ══════════════════════════════
+    // TOAST
+    // ══════════════════════════════
+    function showToast(msg, type = 'normal', dur = 3000) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 'toast show' + (type === 'error' ? ' error' : type === 'success' ? ' success' : '');
+      clearTimeout(t._t);
+      t._t = setTimeout(() => t.classList.remove('show'), dur);
+    }
+
+    // ══════════════════════════════
+    // WELLNESS SHIFT
+    // ══════════════════════════════
+    function wellnessShift(text) {
+      if (/better|thank|smile|hope|calm|relief|grateful|lighter|good|helped|safe|happy|peace/i.test(text)) return Math.floor(Math.random() * 8) + 5;
+      if (/worse|hopeless|never|hate|alone|dark|empty|numb|hurt|fail|end|die|kill/i.test(text)) return 0;
+      return Math.floor(Math.random() * 4) + 1;
+    }
+
+    if (!Array.prototype.findLastIndex) {
+      Array.prototype.findLastIndex = function (fn) {
+        for (let i = this.length - 1; i >= 0; i--) if (fn(this[i], i, this)) return i;
+        return -1;
+      };
+    }
+
+    // ══════════════════════════════
+    // SEND MESSAGE
+    // ══════════════════════════════
+    async function sendMessage() {
+      const input = document.getElementById('msgInput');
+      const text = input.value.trim();
+      if (!text || S.loading) return;
+
+      input.value = ''; input.style.height = 'auto';
+      document.getElementById('charCount').textContent = '';
+      S.loading = true;
+      document.getElementById('sendBtn').disabled = true;
+      document.getElementById('chips').innerHTML = '';
+
+      addMsg('user', text);
+      S.history.push({ role: 'user', content: text });
+      showTyping();
+
+      // Build system prompt with persona
+      const sysPrompt = buildSystemPrompt();
+
+      try {
+        const prov = PROVIDERS[S.provider];
+        const rawBody = {
+          model: prov.model,
+          max_tokens: 500,
+          messages: [
+            { role: 'system', content: sysPrompt },
+            ...S.history.slice(-16)
+          ]
+        };
+        const body = JSON.stringify(prov.format(rawBody));
+        const res = await fetch(prov.url, { method: 'POST', headers: prov.headers(S.apiKey), body });
+
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err?.error?.message || `HTTP ${res.status}`);
+        }
+
+        const data = await res.json();
+        const reply = prov.parse(data) || "I'm here. Can you tell me more?";
+
+        hideTyping();
+        S.history.push({ role: 'assistant', content: reply });
+        addMsg('ai', reply);
+        if (S.settings.sound) playChime();
+
+        const shift = wellnessShift(reply + text);
+        S.wellness = Math.min(98, S.wellness + shift);
+        logMoodPoint('After message', S.wellness);
+
+        const newStage = STAGES.findLastIndex(s => S.wellness >= s.threshold);
+        if (newStage > S.stage) {
+          S.stage = newStage;
+          const st = STAGES[S.stage];
+          setTimeout(() => {
+            const card = document.createElement('div');
+            card.className = 'stage-card';
+            card.innerHTML = `${st.emoji} <span>You've moved to: <strong>${st.name}</strong></span>`;
+            document.getElementById('messages').appendChild(card);
+            document.getElementById('messages').scrollTop = 99999;
+          }, 500);
+        }
+        updateStageUI();
+        updateChips();
+        if (S.settings.save) saveSession();
+
+      } catch (e) {
+        hideTyping();
+        showToast('Error: ' + (e.message || 'Could not connect'), 'error');
+        addMsg('ai', `I'm still here with you 💙 — there was a small connection hiccup. Want to try again?`);
+      }
+
+      S.loading = false;
+      document.getElementById('sendBtn').disabled = false;
+      document.getElementById('msgInput').focus();
+    }
+
+    function buildSystemPrompt() {
+      const persona = PERSONA_TRAITS[S.persona] || PERSONA_TRAITS.gentle;
+      return `You are ${S.compName}, a warm and emotionally intelligent companion helping someone through difficult feelings.
+
+Persona: ${persona}
+
+Core traits:
+- Deeply empathetic, never dismissive or clinical
+- You remember everything shared in the conversation
+- You gently validate feelings without amplifying negativity
+- You use occasional warm emojis naturally (💙 🌿 🌸 ☀️ 🤗) — not excessively
+- You speak like a caring, wise friend — not a therapist or robot
+- You ask one thoughtful follow-up question at a time
+- You never give generic advice or platitudes
+- You notice small improvements and gently celebrate them
+- You suggest tiny, actionable steps only when the person seems ready
+- If the person expresses thoughts of self-harm or crisis, gently encourage them to reach out to a helpline
+
+Current wellness stage: ${STAGES[S.stage].name} (stage ${S.stage + 1}/5)
+The person said they're feeling: ${S.mood}
+
+Stage-specific guidance:
+${S.stage === 0 ? 'Focus entirely on making them feel safe and heard. Just listen, reflect, validate. No advice yet.' : ''}
+${S.stage === 1 ? 'They are opening up. Reflect their feelings back, ask gentle questions to understand more.' : ''}
+${S.stage === 2 ? 'They feel heard. You can gently explore what might help, what small comfort exists.' : ''}
+${S.stage === 3 ? 'Energy is shifting. Help them find something small to look forward to or appreciate.' : ''}
+${S.stage === 4 ? 'They are feeling better. Celebrate progress gently. Help them anchor this feeling.' : ''}
+
+Keep responses concise (2–4 sentences usually). Be human, warm, present.`;
+    }
+
+    // ══════════════════════════════
+    // MOOD TRACKING
+    // ══════════════════════════════
+    function logMoodPoint(label, value) {
+      S.moodHistory.push({ time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), value, label });
+    }
+
+    function renderMoodChart() {
+      const canvas = document.getElementById('moodChart');
+      const ctx = canvas.getContext('2d');
+      canvas.width = canvas.offsetWidth * 2;
+      canvas.height = canvas.offsetHeight * 2;
+      ctx.scale(2, 2);
+      const w = canvas.offsetWidth / 2, h = canvas.offsetHeight / 2;
+      ctx.clearRect(0, 0, w, h);
+
+      if (S.moodHistory.length < 2) {
+        ctx.fillStyle = 'var(--text-muted)'; ctx.font = '12px Sora, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Chat more to see your mood trend', w / 2, h / 2);
+        return;
+      }
+
+      const pts = S.moodHistory;
+      const pad = 20;
+      const xs = pts.map((_, i) => pad + i * ((w - pad * 2) / (pts.length - 1)));
+      const ys = pts.map(p => pad + (1 - p.value / 100) * (h - pad * 2));
+
+      // Gradient fill
+      const grad = ctx.createLinearGradient(0, 0, 0, h);
+      grad.addColorStop(0, 'rgba(92,140,110,0.3)');
+      grad.addColorStop(1, 'rgba(92,140,110,0)');
+      ctx.beginPath();
+      ctx.moveTo(xs[0], ys[0]);
+      for (let i = 1; i < pts.length; i++) ctx.lineTo(xs[i], ys[i]);
+      ctx.lineTo(xs[pts.length - 1], h - pad);
+      ctx.lineTo(xs[0], h - pad);
+      ctx.closePath();
+      ctx.fillStyle = grad; ctx.fill();
+
+      // Line
+      ctx.beginPath();
+      ctx.moveTo(xs[0], ys[0]);
+      for (let i = 1; i < pts.length; i++) ctx.lineTo(xs[i], ys[i]);
+      ctx.strokeStyle = '#5c8c6e'; ctx.lineWidth = 2; ctx.stroke();
+
+      // Dots
+      pts.forEach((p, i) => {
+        ctx.beginPath();
+        ctx.arc(xs[i], ys[i], 4, 0, Math.PI * 2);
+        ctx.fillStyle = '#5c8c6e'; ctx.fill();
+      });
+    }
+
+    function renderMoodLog() {
+      const el = document.getElementById('moodLog');
+      if (!S.moodHistory.length) { el.innerHTML = '<p style="font-size:13px;color:var(--text-hint)">No data yet — start chatting!</p>'; return; }
+      el.innerHTML = [...S.moodHistory].reverse().slice(0, 8).map(m =>
+        `<div class="mood-log-entry">
+      <span>${m.label}</span>
+      <span class="ml-time">${m.time} · ${m.value}%</span>
+    </div>`).join('');
+    }
+
+    // ══════════════════════════════
+    // JOURNAL
+    // ══════════════════════════════
+    function saveJournalEntry() {
+      const text = document.getElementById('journalInput').value.trim();
+      if (!text) { showToast('Write something first ✏️'); return; }
+      const entries = JSON.parse(localStorage.getItem('companion_journal') || '[]');
+      entries.unshift({ date: new Date().toLocaleString(), text });
+      if (entries.length > 50) entries.pop();
+      localStorage.setItem('companion_journal', JSON.stringify(entries));
+      document.getElementById('journalInput').value = '';
+      renderJournalEntries();
+      showToast('Entry saved 📔', 'success');
+    }
+
+    function renderJournalEntries() {
+      const entries = JSON.parse(localStorage.getItem('companion_journal') || '[]');
+      const el = document.getElementById('journalPast');
+      if (!entries.length) { el.innerHTML = ''; return; }
+      el.innerHTML = `<h3>Past Entries</h3>` + entries.slice(0, 5).map(e =>
+        `<div class="jentry">
+      <div class="je-date">${e.date}</div>
+      <div class="je-text">${e.text.slice(0, 200)}${e.text.length > 200 ? '…' : ''}</div>
+    </div>`).join('');
+    }
+
+    // ══════════════════════════════
+    // BREATHING EXERCISE
+    // ══════════════════════════════
+    let breathTimer = null, breathCycle = 0, breathCount = 0;
+
+    function startBreathing() {
+      if (breathTimer) {
+        clearInterval(breathTimer);
+        breathTimer = null;
+        document.getElementById('breathStartBtn').textContent = 'Start Exercise';
+        document.getElementById('breathCircle').className = 'breath-circle';
+        document.getElementById('breathCircle').textContent = 'Ready';
+        document.getElementById('breathInstruction').textContent = 'Press start when you\'re ready';
+        document.getElementById('breathCountDisplay').textContent = '';
+        breathCycle = 0; breathCount = 0;
+        return;
+      }
+      document.getElementById('breathStartBtn').textContent = 'Stop';
+      runBreathCycle();
+    }
+
+    function runBreathCycle() {
+      const phases = [
+        { name: 'Inhale', cls: 'inhale', dur: 4000 },
+        { name: 'Hold', cls: 'hold', dur: 4000 },
+        { name: 'Exhale', cls: 'exhale', dur: 4000 },
+        { name: 'Hold', cls: 'hold', dur: 2000 }
+      ];
+
+      let pi = 0;
+      function next() {
+        if (!document.getElementById('breathStartBtn').textContent.includes('Stop')) return;
+        const ph = phases[pi % phases.length];
+        const circle = document.getElementById('breathCircle');
+        circle.className = 'breath-circle ' + ph.cls;
+        circle.textContent = ph.name;
+        document.getElementById('breathInstruction').textContent = ph.name === 'Inhale' ? 'Breathe in slowly…' : ph.name === 'Exhale' ? 'Let it all out…' : 'Hold gently…';
+
+        if (pi % phases.length === 0 && pi > 0) {
+          breathCount++;
+          document.getElementById('breathCountDisplay').textContent = `Cycle ${breathCount}`;
+        }
+        pi++;
+        breathTimer = setTimeout(next, ph.dur);
+      }
+      next();
+    }
+
+    // ══════════════════════════════
+    // VOICE INPUT
+    // ══════════════════════════════
+    let recognition = null;
+    let isListening = false;
+
+    function toggleVoice() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) { showToast('Voice not supported in this browser', 'error'); return; }
+
+      if (isListening) {
+        recognition.stop();
+        isListening = false;
+        document.getElementById('voiceBtn').classList.remove('active');
+        document.getElementById('voiceBtn').textContent = '🎙 Voice';
+        return;
+      }
+
+      recognition = new SpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = 'en-US';
+
+      recognition.onstart = () => {
+        isListening = true;
+        document.getElementById('voiceBtn').classList.add('active');
+        document.getElementById('voiceBtn').textContent = '🔴 Listening…';
+      };
+      recognition.onresult = e => {
+        const transcript = e.results[0][0].transcript;
+        document.getElementById('msgInput').value = transcript;
+        autoResize(document.getElementById('msgInput'));
+        document.getElementById('msgInput').focus();
+      };
+      recognition.onend = () => {
+        isListening = false;
+        document.getElementById('voiceBtn').classList.remove('active');
+        document.getElementById('voiceBtn').textContent = '🎙 Voice';
+      };
+      recognition.onerror = () => {
+        showToast('Voice input error — try again', 'error');
+        isListening = false;
+        document.getElementById('voiceBtn').classList.remove('active');
+        document.getElementById('voiceBtn').textContent = '🎙 Voice';
+      };
+      recognition.start();
+    }
+
+    // ══════════════════════════════
+    // EXPORT CHAT
+    // ══════════════════════════════
+    function exportChat() {
+      if (!S.history.length) { showToast('No messages to export yet'); return; }
+      const lines = [`Your Companion – Chat Export`, `Companion: ${S.compName} | Date: ${new Date().toLocaleString()}`, '─'.repeat(50), ''];
+      S.history.forEach(m => {
+        lines.push(`[${m.role === 'user' ? 'You' : S.compName}]`);
+        lines.push(m.content);
+        lines.push('');
+      });
+      const blob = new Blob([lines.join('\n')], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = `companion-chat-${Date.now()}.txt`;
+      a.click(); URL.revokeObjectURL(url);
+      showToast('Chat exported 📄', 'success');
+    }
+
+    // ══════════════════════════════
+    // SETTINGS
+    // ══════════════════════════════
+    function toggleDark() {
+      S.settings.dark = !S.settings.dark;
+      document.documentElement.setAttribute('data-theme', S.settings.dark ? 'dark' : '');
+      document.getElementById('darkToggle').classList.toggle('on', S.settings.dark);
+      localStorage.setItem('companion_dark', S.settings.dark ? '1' : '0');
+    }
+
+    function toggleSetting(key) {
+      S.settings[key] = !S.settings[key];
+      document.getElementById(key + 'Toggle').classList.toggle('on', S.settings[key]);
+    }
+
+    function clearSession() {
+      localStorage.removeItem('companion_session');
+      localStorage.removeItem('companion_journal');
+      S.history = []; S.stage = 0; S.wellness = 10; S.moodHistory = [];
+      showToast('Session cleared', 'success');
+      closeModal('settingsModal');
+    }
+
+    function saveSession() {
+      localStorage.setItem('companion_session', JSON.stringify({
+        history: S.history.slice(-30), stage: S.stage, wellness: S.wellness,
+        compName: S.compName, mood: S.mood
+      }));
+    }
+
+    function tryRestoreSession() {
+      try {
+        const raw = localStorage.getItem('companion_session');
+        if (!raw) return;
+        const saved = JSON.parse(raw);
+        if (saved.compName !== S.compName) return;
+        const doRestore = confirm(`Restore previous session with ${S.compName}? (${saved.history.length} messages)`);
+        if (!doRestore) return;
+        S.history = saved.history;
+        S.stage = saved.stage;
+        S.wellness = Math.max(10, saved.wellness);
+        document.getElementById('messages').innerHTML = '';
+        S.history.forEach(m => addMsg(m.role === 'user' ? 'user' : 'ai', m.content));
+        updateStageUI();
+        showToast('Session restored ✨', 'success');
+      } catch (e) { }
+    }
+
+    // ══════════════════════════════
+    // SOUND
+    // ══════════════════════════════
+    function playChime() {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.frequency.value = 660;
+        osc.type = 'sine';
+        gain.gain.setValueAtTime(0.12, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.8);
+        osc.start(ctx.currentTime);
+        osc.stop(ctx.currentTime + 0.8);
+      } catch (e) { }
+    }
+
+    // ══════════════════════════════
+    // MODALS
+    // ══════════════════════════════
+    function openModal(id) {
+      document.getElementById(id).classList.add('open');
+      if (id === 'moodModal') { setTimeout(renderMoodChart, 50); renderMoodLog(); }
+      if (id === 'journalModal') renderJournalEntries();
+      if (id === 'settingsModal') {
+        document.getElementById('darkToggle').classList.toggle('on', S.settings.dark);
+        document.getElementById('soundToggle').classList.toggle('on', S.settings.sound);
+        document.getElementById('timestampToggle').classList.toggle('on', S.settings.timestamps);
+        document.getElementById('saveToggle').classList.toggle('on', S.settings.save);
+      }
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+      if (id === 'breathModal' && breathTimer) { clearTimeout(breathTimer); breathTimer = null; }
+    }
+
+    function showCrisis() { openModal('crisisModal'); }
+
+    // Close modal on overlay click
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+      overlay.addEventListener('click', e => {
+        if (e.target === overlay) closeModal(overlay.id);
+      });
+    });
+
+    // Init dark mode toggle state
+    document.getElementById('darkToggle').classList.toggle('on', S.settings.dark);
+  </script>
+</body>
+
+</html>
